@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
-using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -21,43 +19,39 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody rb;
     private Animator anim;
-    private Vector2 direction;
-    private Vector2 lookDirection;
-
-    private InputActionMap playerActionMap;
-    private PlayerInput playerInput;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         anim = GetComponent<Animator>();
-        playerInput = GetComponent<PlayerInput>();
+    }
+
+    private void Start()
+    {
+        InputManager.Instance.OnJumpPerformed -= HandleJump;
+        InputManager.Instance.OnJumpPerformed += HandleJump;
     }
 
     private void OnEnable()
     {
-        playerActionMap = playerInput.actions.FindActionMap("Player");
+        if (InputManager.Instance != null)
+        {
+            InputManager.Instance.OnJumpPerformed += HandleJump;
+        }
     }
 
     private void OnDisable()
     {
-        playerActionMap.Disable();
+        if (InputManager.Instance != null)
+        {
+            InputManager.Instance.OnJumpPerformed -= HandleJump;
+        }
     }
 
-    public void OnMove(InputValue value)
+    private void HandleJump()
     {
-        direction = value.Get<Vector2>();
-    }
-
-    public void OnLook(InputValue value)
-    {
-        lookDirection = value.Get<Vector2>();
-    }
-
-    public void OnJump(InputValue value)
-    {
-        if (value.isPressed && isGrounded)
+        if(isGrounded)
         {
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
             rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
@@ -68,26 +62,27 @@ public class PlayerMovement : MonoBehaviour
     {
         isGrounded = Physics.CheckSphere(transform.position + groundCheckOffset, groundCheckRadius, groundLayer);
 
-        anim.SetFloat("BlendVertical", direction.y, 0.1f, Time.deltaTime);
-        anim.SetFloat("BlendHorizontal", direction.x, 0.1f, Time.deltaTime);
+        Vector2 dir = InputManager.Instance.MoveInput;
+        anim.SetFloat("BlendVertical", dir.y, 0.1f, Time.deltaTime);
+        anim.SetFloat("BlendHorizontal", dir.x, 0.1f, Time.deltaTime);
     }
 
     private void FixedUpdate()
     {
-        ApplyRotation();
-        ApplyMovement();
+        ApplyRotation(InputManager.Instance.LookInput);
+        ApplyMovement(InputManager.Instance.MoveInput);
     }
 
-    private void ApplyMovement()
+    private void ApplyMovement(Vector2 dir)
     {
-        Vector3 moveDir = (transform.forward * direction.y) + (transform.right * direction.x);
+        Vector3 moveDir = (transform.forward * dir.y) + (transform.right * dir.x);
         Vector3 destination = moveDir * moveSpeed * Time.fixedDeltaTime;
         rb.MovePosition(rb.position + destination);
     }
 
-    private void ApplyRotation()
+    private void ApplyRotation(Vector2 lookDir)
     {
-        float rotateY = lookDirection.x * rotateSpeed * Time.fixedDeltaTime;
+        float rotateY = lookDir.x * rotateSpeed * Time.fixedDeltaTime;
         Quaternion deltaRotation = Quaternion.Euler(0, rotateY, 0);
         rb.MoveRotation(rb.rotation * deltaRotation);
     }

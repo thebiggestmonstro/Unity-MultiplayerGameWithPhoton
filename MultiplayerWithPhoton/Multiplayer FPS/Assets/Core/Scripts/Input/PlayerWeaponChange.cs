@@ -1,12 +1,8 @@
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
-using UnityEngine.InputSystem;
 
 public class PlayerWeaponChange : MonoBehaviour
 {
-    private InputActionMap playerActionMap;
-    private PlayerInput playerInput;
-
     [SerializeField]
     private TwoBoneIKConstraint leftHand;
     [SerializeField]
@@ -20,26 +16,30 @@ public class PlayerWeaponChange : MonoBehaviour
     [SerializeField]
     private GameObject[] weapons;
 
-    private int weaponNumber = 0;
-
-    void Awake()
+    private void Start()
     {
-        playerInput = GetComponent<PlayerInput>();
+        InputManager.Instance.OnSwapPerformed -= HandleSwap;
+        InputManager.Instance.OnSwapPerformed += HandleSwap;
     }
 
     private void OnEnable()
     {
-        playerActionMap = playerInput.actions.FindActionMap("Player");
+        if (InputManager.Instance != null)
+        {
+            InputManager.Instance.OnSwapPerformed += HandleSwap;
+        }
     }
 
     private void OnDisable()
     {
-        playerActionMap.Disable();
+        if (InputManager.Instance != null)
+        {
+            InputManager.Instance.OnSwapPerformed -= HandleSwap;
+        }
     }
 
-    public void OnSwap(InputValue value)
+    private void HandleSwap(int weaponNumber)
     {
-        weaponNumber = (int)value.Get<float>();
         int next1 = (weaponNumber + 1) % 3;
         int next2 = (next1 + 1) % 3;
 
