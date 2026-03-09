@@ -8,11 +8,15 @@ public class PlayerWeaponChange : MonoBehaviour
     [SerializeField]
     private TwoBoneIKConstraint rightHand;
     [SerializeField]
+    private TwoBoneIKConstraint leftThumb;
+    [SerializeField]
     private RigBuilder rig;
     [SerializeField]
     private Transform[] leftTargets;
     [SerializeField]
     private Transform[] rightTargets;
+    [SerializeField]
+    private Transform[] thumbTargets;
     [SerializeField]
     private GameObject[] weapons;
 
@@ -49,6 +53,7 @@ public class PlayerWeaponChange : MonoBehaviour
 
         leftHand.data.target = leftTargets[weaponNumber];
         rightHand.data.target = rightTargets[weaponNumber];
+        leftThumb.data.target = thumbTargets[weaponNumber];
         rig.Build();
     }
 }

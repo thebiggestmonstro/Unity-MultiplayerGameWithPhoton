@@ -60,8 +60,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        isGrounded = Physics.CheckSphere(transform.position + groundCheckOffset, groundCheckRadius, groundLayer);
-
         Vector2 dir = InputManager.Instance.MoveInput;
         anim.SetFloat("BlendVertical", dir.y, 0.1f, Time.deltaTime);
         anim.SetFloat("BlendHorizontal", dir.x, 0.1f, Time.deltaTime);
@@ -69,6 +67,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        isGrounded = Physics.CheckSphere(transform.position + groundCheckOffset, groundCheckRadius, groundLayer);
+
         ApplyRotation(InputManager.Instance.LookInput);
         ApplyMovement(InputManager.Instance.MoveInput);
     }
