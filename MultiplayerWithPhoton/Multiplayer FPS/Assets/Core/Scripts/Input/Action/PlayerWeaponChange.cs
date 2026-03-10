@@ -20,29 +20,32 @@ public class PlayerWeaponChange : MonoBehaviour
     [SerializeField]
     private GameObject[] weapons;
 
+    [SerializeField]
+    MultiAimConstraint[] aimObjects;
+    private Transform aimTarget;
+
     private void Start()
     {
-        InputManager.Instance.OnSwapPerformed -= HandleSwap;
-        InputManager.Instance.OnSwapPerformed += HandleSwap;
+        aimTarget = GameObject.Find("PlayerAimRef").transform;
+        Invoke("SetLookAt", 0.1f);
     }
 
-    private void OnEnable()
+    void SetLookAt()
     {
-        if (InputManager.Instance != null)
+        if (aimTarget != null)
         {
-            InputManager.Instance.OnSwapPerformed += HandleSwap;
+            for (int i = 0; i < aimObjects.Length; i++)
+            {
+                var target = aimObjects[i].data.sourceObjects;
+                target.SetTransform(0, aimTarget.transform);
+                aimObjects[i].data.sourceObjects = target;
+            }
         }
+
+        rig.Build();
     }
 
-    private void OnDisable()
-    {
-        if (InputManager.Instance != null)
-        {
-            InputManager.Instance.OnSwapPerformed -= HandleSwap;
-        }
-    }
-
-    private void HandleSwap(int weaponNumber)
+    public void HandleSwap(int weaponNumber)
     {
         int next1 = (weaponNumber + 1) % 3;
         int next2 = (next1 + 1) % 3;

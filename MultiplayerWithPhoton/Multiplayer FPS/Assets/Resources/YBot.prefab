@@ -5832,10 +5832,11 @@ GameObject:
   - component: {fileID: 3640978962112726525}
   - component: {fileID: 4556267402053474800}
   - component: {fileID: 7620469910098784362}
+  - component: {fileID: 5847950899336630711}
+  - component: {fileID: 1654884547717117655}
   - component: {fileID: 8883637921174227551}
   - component: {fileID: 639074489932440175}
-  - component: {fileID: 5847950899336630711}
-  - component: {fileID: 707370415475384938}
+  - component: {fileID: 309848200325845565}
   m_Layer: 0
   m_Name: YBot
   m_TagString: Player
@@ -5926,7 +5927,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Actions: {fileID: -944628639613478452, guid: 4adedffcc7b396046ba080696fa4862c, type: 3}
-  m_NotificationBehavior: 0
+  m_NotificationBehavior: 3
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
@@ -5979,6 +5980,54 @@ MonoBehaviour:
     m_Bits: 8
   groundCheckRadius: 0.2
   groundCheckOffset: {x: 0, y: 0.1, z: 0}
+--- !u!114 &5847950899336630711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1730809550129686919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ccbc4799240e3140b4728cec8190387, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftHand: {fileID: 9211262669150458312}
+  rightHand: {fileID: 7572614088862244736}
+  leftThumb: {fileID: 6868719186311000658}
+  rig: {fileID: 639074489932440175}
+  leftTargets:
+  - {fileID: 5103063196884368411}
+  - {fileID: 4564350045671450489}
+  - {fileID: 7477336878263927014}
+  rightTargets:
+  - {fileID: 2256003016709748351}
+  - {fileID: 1163349365357073111}
+  - {fileID: 2705043771743452758}
+  thumbTargets:
+  - {fileID: 117447040859612113}
+  - {fileID: 5605620794040077610}
+  - {fileID: 7612815058345001717}
+  weapons:
+  - {fileID: 6278854641965166600}
+  - {fileID: 1734519851761583779}
+  - {fileID: 6805886801885069751}
+  aimObjects:
+  - {fileID: 6429483062514957343}
+  - {fileID: 3100221681496175626}
+  - {fileID: 8385279173895315376}
+--- !u!114 &1654884547717117655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1730809550129686919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 760c4128732d58f42b3848a9c2cc7b3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!136 &8883637921174227551
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -6308,7 +6357,7 @@ MonoBehaviour:
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0}
     m_Visible: 1
---- !u!114 &5847950899336630711
+--- !u!114 &309848200325845565
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6317,41 +6366,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 1730809550129686919}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ccbc4799240e3140b4728cec8190387, type: 3}
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftHand: {fileID: 9211262669150458312}
-  rightHand: {fileID: 7572614088862244736}
-  leftThumb: {fileID: 6868719186311000658}
-  rig: {fileID: 639074489932440175}
-  leftTargets:
-  - {fileID: 5103063196884368411}
-  - {fileID: 4564350045671450489}
-  - {fileID: 7477336878263927014}
-  rightTargets:
-  - {fileID: 2256003016709748351}
-  - {fileID: 1163349365357073111}
-  - {fileID: 2705043771743452758}
-  thumbTargets:
-  - {fileID: 117447040859612113}
-  - {fileID: 5605620794040077610}
-  - {fileID: 7612815058345001717}
-  weapons:
-  - {fileID: 6278854641965166600}
-  - {fileID: 1734519851761583779}
-  - {fileID: 6805886801885069751}
---- !u!114 &707370415475384938
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1730809550129686919}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 035f37aa98bec944484da91b24362434, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1761084176024001235
 GameObject:
   m_ObjectHideFlags: 0
