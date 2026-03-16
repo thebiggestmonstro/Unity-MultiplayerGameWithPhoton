@@ -36,7 +36,6 @@ public class PlayerController : MonoBehaviour
                 _playerInput.enabled = false;
                 _inputReader.enabled = false;
                 this.enabled = false;
-                _rigBuilder.enabled = false;
 
                 return;
             }
