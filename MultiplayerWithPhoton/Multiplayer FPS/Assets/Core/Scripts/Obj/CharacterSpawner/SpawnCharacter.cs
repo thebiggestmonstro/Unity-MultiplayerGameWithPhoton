@@ -8,7 +8,7 @@ public class SpawnCharacter : MonoBehaviour
     GameObject character;
     [SerializeField]
     Transform[] spawnPoints;
-
+    
     private void Start()
     {
         StartCoroutine(WaitToSpawn());

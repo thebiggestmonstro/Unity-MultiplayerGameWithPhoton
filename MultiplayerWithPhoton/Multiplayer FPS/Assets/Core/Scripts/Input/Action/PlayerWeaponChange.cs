@@ -1,3 +1,4 @@
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
@@ -19,8 +20,26 @@ public class PlayerWeaponChange : MonoBehaviour
     private Transform[] thumbTargets;
     [SerializeField]
     private GameObject[] weapons;
+    private GameObject _testForWeapons;
+
+    private void Start()
+    {
+        _testForWeapons = GameObject.Find("Weapon1Pickup(Clone)");
+        if (_testForWeapons == null)
+        {
+            var spawner = GameObject.Find("WeaponSpawner1");
+            spawner.GetComponent<SpawnWeapon>().SpawnWeaponsStart();
+        }
+
+    }
 
     public void HandleSwap(int weaponNumber)
+    {
+        GetComponent<PhotonView>().RPC("SwapWeapon", RpcTarget.AllBuffered, weaponNumber);
+    }
+
+    [PunRPC]
+    public void SwapWeapon(int weaponNumber)
     {
         int next1 = (weaponNumber + 1) % 3;
         int next2 = (next1 + 1) % 3;
