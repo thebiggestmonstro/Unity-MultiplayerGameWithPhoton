@@ -8,7 +8,12 @@ public class SpawnCharacter : MonoBehaviour
     GameObject character;
     [SerializeField]
     Transform[] spawnPoints;
-    
+
+    private void Awake()
+    {
+        ObjectManager.RegisterCharacterSpawner(gameObject.name, this);
+    }
+
     private void Start()
     {
         StartCoroutine(WaitToSpawn());

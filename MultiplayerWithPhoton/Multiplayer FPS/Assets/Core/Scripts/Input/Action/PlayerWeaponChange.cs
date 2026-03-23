@@ -20,22 +20,22 @@ public class PlayerWeaponChange : MonoBehaviour
     private Transform[] thumbTargets;
     [SerializeField]
     private GameObject[] weapons;
-    private GameObject _testForWeapons;
+    private WeaponPickup _testForWeapons;
 
     private void Start()
     {
-        _testForWeapons = GameObject.Find("Weapon1Pickup(Clone)");
+        _testForWeapons = ObjectManager.GetWeapon("Weapon1Pickup(Clone)");
         if (_testForWeapons == null)
         {
-            var spawner = GameObject.Find("WeaponSpawner1");
-            spawner.GetComponent<SpawnWeapon>().SpawnWeaponsStart();
+            var spawner = ObjectManager.GetWeaponSpawner("WeaponSpawner1");
+            spawner.SpawnWeaponsStart();
         }
 
     }
 
     public void HandleSwap(int weaponNumber)
     {
-        GetComponent<PhotonView>().RPC("SwapWeapon", RpcTarget.AllBuffered, weaponNumber);
+        gameObject.GetOrAddComponent<PhotonView>().RPC("SwapWeapon", RpcTarget.AllBuffered, weaponNumber);
     }
 
     [PunRPC]

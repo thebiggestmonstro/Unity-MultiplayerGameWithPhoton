@@ -10,6 +10,11 @@ public class SpawnWeapon : MonoBehaviour
     [SerializeField]
     float weaponRespawnTime = 10;
 
+    private void Awake()
+    {
+        ObjectManager.RegisterWeaponSpawner(gameObject.name, this);
+    }
+
     public void SpawnWeaponsStart()
     {
         for (int i = 0; i < weapons.Length; i++)

@@ -10,17 +10,22 @@ public class WeaponPickup : MonoBehaviour
     [SerializeField]
     int weaponType = 1;
 
+    private void Awake()
+    {
+        ObjectManager.RegisterWeapon(gameObject.name, this);
+    }
+
     void Start()
     {
-        _audioPlayer = gameObject.GetComponent<AudioSource>();
+        _audioPlayer = gameObject.GetOrAddComponent<AudioSource>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            gameObject.GetComponent<PhotonView>().RPC("PlayPickupAudio",RpcTarget.All);
-            gameObject.GetComponent<PhotonView>().RPC("DisableWeapon", RpcTarget.All);
+            gameObject.GetOrAddComponent<PhotonView>().RPC("PlayPickupAudio",RpcTarget.All);
+            gameObject.GetOrAddComponent<PhotonView>().RPC("DisableWeapon", RpcTarget.All);
         }
     }
 
@@ -35,13 +40,13 @@ public class WeaponPickup : MonoBehaviour
     {
         if (weaponType == 1)
         {
-            gameObject.GetComponent<Renderer>().enabled = false;
-            gameObject.GetComponent<Collider>().enabled = false;
+            gameObject.GetOrAddComponent<Renderer>().enabled = false;
+            gameObject.GetOrAddComponent<Collider>().enabled = false;
         }
         else
         {
             gameObject.transform.GetChild(0).gameObject.SetActive(false);
-            gameObject.GetComponent<Collider>().enabled = false;
+            gameObject.GetOrAddComponent<Collider>().enabled = false;
         }
         StartCoroutine(WaitToRespawn());
     }
@@ -49,7 +54,7 @@ public class WeaponPickup : MonoBehaviour
     IEnumerator WaitToRespawn()
     {
         yield return new WaitForSeconds(_respawnTime);
-        gameObject.GetComponent<PhotonView>().RPC("EnableWeapon", RpcTarget.All);
+        gameObject.GetOrAddComponent<PhotonView>().RPC("EnableWeapon", RpcTarget.All);
     }
 
     [PunRPC]
@@ -57,13 +62,13 @@ public class WeaponPickup : MonoBehaviour
     {
         if (weaponType == 1)
         {
-            gameObject.GetComponent<Renderer>().enabled = true;
-            gameObject.GetComponent<Collider>().enabled = true;
+            gameObject.GetOrAddComponent<Renderer>().enabled = true;
+            gameObject.GetOrAddComponent<Collider>().enabled = true;
         }
         else
         {
             gameObject.transform.GetChild(0).gameObject.SetActive(true);
-            gameObject.GetComponent<Collider>().enabled = true;
+            gameObject.GetOrAddComponent<Collider>().enabled = true;
         }
     }
 }

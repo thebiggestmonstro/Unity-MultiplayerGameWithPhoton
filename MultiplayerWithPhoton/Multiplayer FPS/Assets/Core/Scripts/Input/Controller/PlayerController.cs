@@ -19,12 +19,12 @@ public class PlayerController : MonoBehaviour
 
     void Awake()
     {
-        _photonView = GetComponent<PhotonView>();
-        _playerInput = GetComponent<PlayerInput>();
-        _inputReader = gameObject.AddComponent<InputReader>();
-        _movement = GetComponent<PlayerMovement>();
-        _weaponChange = GetComponent<PlayerWeaponChange>();
-        _rigBuilder = GetComponent<RigBuilder>();
+        _photonView = gameObject.GetOrAddComponent<PhotonView>();
+        _playerInput = gameObject.GetOrAddComponent<PlayerInput>();
+        _inputReader = gameObject.GetOrAddComponent<InputReader>();
+        _movement = gameObject.GetOrAddComponent<PlayerMovement>();
+        _weaponChange = gameObject.GetOrAddComponent<PlayerWeaponChange>();
+        _rigBuilder = gameObject.GetOrAddComponent<RigBuilder>();
     }
 
     private void Start()
@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        _camObject = GameObject.Find("PlayerCam");
+        _camObject = GameObject.FindWithTag("FollowCamera");
         _cam = _camObject.GetComponent<CinemachineCamera>();
         _cam.Follow = gameObject.transform;
         _cam.LookAt = gameObject.transform;
@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable()
     {
-        if (this.gameObject.GetComponent<PhotonView>().IsMine)
+        if (_photonView.IsMine)
         {
             _inputReader.OnJumpPerformed -= _movement.HandleJump;
             _inputReader.OnJumpPerformed += _movement.HandleJump;
@@ -60,7 +60,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnDisable()
     {
-        if (this.gameObject.GetComponent<PhotonView>().IsMine)
+        if (_photonView.IsMine)
         {
             _inputReader.OnJumpPerformed -= _movement.HandleJump;
             _inputReader.OnSwapPerformed -= _weaponChange.HandleSwap;
@@ -69,7 +69,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (!gameObject.GetComponent<PhotonView>().IsMine)
+        if (!_photonView.IsMine)
         {
             return;
         }
@@ -80,7 +80,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!gameObject.GetComponent<PhotonView>().IsMine)
+        if (!_photonView.IsMine)
         {
             return;
         }

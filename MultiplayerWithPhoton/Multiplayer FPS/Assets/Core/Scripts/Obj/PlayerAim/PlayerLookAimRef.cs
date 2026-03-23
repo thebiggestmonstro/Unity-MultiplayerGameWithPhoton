@@ -4,15 +4,17 @@ using UnityEngine;
 public class PlayerLookAimRef : MonoBehaviour
 {
     private GameObject _playerAimObject;
+    private PhotonView _photonView;
 
     void Start()
     {
-        _playerAimObject = GameObject.Find("PlayerAim");
+        _playerAimObject = GameObject.FindWithTag("PlayerAim");
+        _photonView = Util.FindParent<PhotonView>(this.gameObject, null, false);
     }
 
     void FixedUpdate()
     {
-        if (gameObject.GetComponentInParent<PhotonView>().IsMine)
+        if (_photonView.IsMine)
         {
             transform.position = _playerAimObject.transform.position;
         }
