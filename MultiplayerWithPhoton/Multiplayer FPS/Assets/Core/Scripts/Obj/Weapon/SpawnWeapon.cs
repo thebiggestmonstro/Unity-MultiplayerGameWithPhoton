@@ -7,8 +7,10 @@ public class SpawnWeapon : MonoBehaviour
     GameObject[] weapons;
     [SerializeField]
     Transform[] weaponSpawnPoints;
+    /*
     [SerializeField]
     float weaponRespawnTime = 10;
+    */
 
     private void Awake()
     {
