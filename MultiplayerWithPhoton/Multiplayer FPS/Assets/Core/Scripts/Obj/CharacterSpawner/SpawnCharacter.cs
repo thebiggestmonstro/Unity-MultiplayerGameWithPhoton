@@ -22,9 +22,11 @@ public class SpawnCharacter : MonoBehaviour
     IEnumerator WaitToSpawn()
     {
         yield return new WaitForSeconds(1);
+        
         if (PhotonNetwork.IsConnected)
         {
-            PhotonNetwork.Instantiate(character.name, spawnPoints[PhotonNetwork.CountOfPlayers - 1].position, spawnPoints[PhotonNetwork.CountOfPlayers - 1].rotation);
+            int spawnIndex = (PhotonNetwork.LocalPlayer.ActorNumber - 1) % spawnPoints.Length;
+            PhotonNetwork.Instantiate(character.name, spawnPoints[spawnIndex].position, spawnPoints[spawnIndex].rotation);
         }
     }
 }

@@ -11,17 +11,26 @@ public class ObjectManager
 
     public static void RegisterWeapon(string weaponName, WeaponPickup weapon)
     {
-        weaponDict.Add(weaponName, weapon);
+        if (!weaponDict.ContainsKey(weaponName))
+        {
+            weaponDict.Add(weaponName, weapon);
+        }
     }
 
     public static void RegisterCharacterSpawner(string spawnerName, SpawnCharacter spawner)
     {
-        characterSpawnerDict.Add(spawnerName, spawner);
+        if (!characterSpawnerDict.ContainsKey(spawnerName))
+        {
+            characterSpawnerDict.Add(spawnerName, spawner);
+        }
     }
 
     public static void RegisterWeaponSpawner(string spawnerName, SpawnWeapon spawner)
     {
-        weaponSpawnerDict.Add(spawnerName, spawner);
+        if (!weaponSpawnerDict.ContainsKey(spawnerName))
+        {
+            weaponSpawnerDict.Add(spawnerName, spawner);
+        }
     }
 
     public static void UnregisterWeapon(string weaponName)
