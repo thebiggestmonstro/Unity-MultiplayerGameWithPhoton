@@ -11,8 +11,8 @@ public class DisplayColor : MonoBehaviour
 
     private void Awake()
     {
-        cachedPhotonView = GetComponent<PhotonView>();
-        playerRenderer = transform.GetChild(1).GetComponent<Renderer>();
+        cachedPhotonView = gameObject.GetOrAddComponent<PhotonView>();
+        playerRenderer = transform.GetChild(1).gameObject.GetOrAddComponent<Renderer>();
     }
 
     private void Start()
@@ -27,17 +27,12 @@ public class DisplayColor : MonoBehaviour
             return;
         }
 
-        if (playerRenderer == null)
-        {
-            return;
-        }
-
         if (nickNameUI == null)
         {
             nickNameUI = GameObject.FindWithTag("PlayerNameBG");
         }
 
-        var uiNickName = nickNameUI.GetComponent<UI_NickName>();
+        var uiNickName = nickNameUI.GetOrAddComponent<UI_NickName>();
 
         playerRenderer.material.color = colors[colorIndex];
         uiNickName.names[colorIndex].gameObject.SetActive(true);

@@ -17,7 +17,7 @@ public class InputReader : MonoBehaviour
 
     void Awake()
     {
-        _playerInput = gameObject.GetComponent<PlayerInput>();
+        _playerInput = gameObject.GetOrAddComponent<PlayerInput>();
         _moveAction = _playerInput.actions["Move"];
         _lookAction = _playerInput.actions["Look"];
         _jumpAction = _playerInput.actions["Jump"];

@@ -21,9 +21,9 @@ public class PlayerMovement : MonoBehaviour
 
     void Awake()
     {
-        rb = GetComponent<Rigidbody>();
+        rb = gameObject.GetOrAddComponent<Rigidbody>();
         rb.freezeRotation = true;
-        anim = GetComponent<Animator>();
+        anim = gameObject.GetOrAddComponent<Animator>();
     }
 
     public void CheckGround()

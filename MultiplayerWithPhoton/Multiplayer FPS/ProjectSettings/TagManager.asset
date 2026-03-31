@@ -7,6 +7,8 @@ TagManager:
   - PlayerAim
   - FollowCamera
   - PlayerNameBG
+  - WeaponSlot
+  - WeaponAmmo
   layers:
   - Default
   - TransparentFX

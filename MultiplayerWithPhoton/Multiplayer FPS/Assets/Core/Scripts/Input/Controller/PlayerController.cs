@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
         }
 
         _camObject = GameObject.FindWithTag("FollowCamera");
-        _cam = _camObject.GetComponent<CinemachineCamera>();
+        _cam = _camObject.GetOrAddComponent<CinemachineCamera>();
         _cam.Follow = gameObject.transform;
         _cam.LookAt = gameObject.transform;
     }

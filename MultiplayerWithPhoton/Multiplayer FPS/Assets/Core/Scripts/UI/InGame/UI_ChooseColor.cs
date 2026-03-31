@@ -6,12 +6,14 @@ public class UI_ChooseColor : MonoBehaviour
 {
     private GameObject panel;
     private PhotonView cachedPhotonView;
+    private GameObject playerNameBG;
 
     private void Start()
     {
         Cursor.visible = true;
         panel = Util.FindParent(gameObject, "Panel_ChooseColor", false);
-        cachedPhotonView = GetComponent<PhotonView>();
+        playerNameBG = GameObject.FindGameObjectWithTag("PlayerNameBG");
+        cachedPhotonView = gameObject.GetOrAddComponent<PhotonView>();
     }
 
     public void SelectButton(int buttonNumber)
@@ -33,7 +35,7 @@ public class UI_ChooseColor : MonoBehaviour
     {
         foreach (var player in GameObject.FindGameObjectsWithTag("Player"))
         {
-            var pv = player.GetComponent<PhotonView>();
+            var pv = player.GetOrAddComponent<PhotonView>();
             if (pv != null && pv.IsMine)
             {
                 return pv.ViewID;
@@ -48,9 +50,10 @@ public class UI_ChooseColor : MonoBehaviour
     {
         foreach (var player in GameObject.FindGameObjectsWithTag("Player"))
         {
-            player.GetComponent<DisplayColor>()?.ApplyColor(buttonNumber, ownerViewID);
+            player.GetOrAddComponent<DisplayColor>()?.ApplyColor(buttonNumber, ownerViewID);
         }
 
+        playerNameBG.GetOrAddComponent<UI_Timer>().BeginTimer();
         gameObject.SetActive(false);
     }
 }

@@ -1,6 +1,8 @@
 using Photon.Pun;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
+using UnityEngine.UI;
 
 public class PlayerWeaponChange : MonoBehaviour
 {
@@ -20,10 +22,20 @@ public class PlayerWeaponChange : MonoBehaviour
     private Transform[] thumbTargets;
     [SerializeField]
     private GameObject[] weapons;
+    [SerializeField]
+    private Sprite[] weaponIcons;
+    [SerializeField]
+    private int[] ammoAmounts;
+
     private WeaponPickup _testForWeapons;
+    private Image weaponIcon;
+    private TextMeshProUGUI ammoAmount;
 
     private void Start()
     {
+        weaponIcon = GameObject.FindGameObjectWithTag("WeaponSlot").GetOrAddComponent<Image>();
+        ammoAmount = GameObject.FindGameObjectWithTag("WeaponAmmo").GetOrAddComponent<TextMeshProUGUI>();
+
         _testForWeapons = ObjectManager.GetWeapon("Weapon1Pickup(Clone)");
         if (_testForWeapons == null)
         {
@@ -47,6 +59,9 @@ public class PlayerWeaponChange : MonoBehaviour
         weapons[weaponNumber].SetActive(true);
         weapons[next1].SetActive(false);
         weapons[next2].SetActive(false);
+
+        weaponIcon.sprite = weaponIcons[weaponNumber];
+        ammoAmount.text = ammoAmounts[weaponNumber].ToString();
 
         leftHand.data.target = leftTargets[weaponNumber];
         rightHand.data.target = rightTargets[weaponNumber];
