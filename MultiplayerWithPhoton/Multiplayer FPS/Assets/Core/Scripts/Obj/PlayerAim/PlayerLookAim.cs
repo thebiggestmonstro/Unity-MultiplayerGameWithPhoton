@@ -7,16 +7,8 @@ public class PlayerLookAim : MonoBehaviour
 {
     [SerializeField]
     private GameObject crossHair;
-    [SerializeField]
-    private TMP_Text playerNameText;
     private Vector3 worldPosition;
     private Vector3 screenPosition;
-
-    private void Start()
-    {
-        Cursor.visible = false;
-        playerNameText.text = PhotonNetwork.LocalPlayer.NickName;
-    }
 
     void FixedUpdate()
     {

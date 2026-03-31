@@ -6,6 +6,7 @@ TagManager:
   tags:
   - PlayerAim
   - FollowCamera
+  - PlayerNameBG
   layers:
   - Default
   - TransparentFX
