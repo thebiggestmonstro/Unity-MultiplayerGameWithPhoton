@@ -5,7 +5,7 @@ public class DisplayColor : MonoBehaviour
 {
     [SerializeField]
     private Color32[] colors;
-    private GameObject nickNameUI;
+    private UI_NickName nickNameUI;
     private PhotonView cachedPhotonView;
     private Renderer playerRenderer;
 
@@ -17,7 +17,7 @@ public class DisplayColor : MonoBehaviour
 
     private void Start()
     {
-        nickNameUI = GameObject.FindWithTag("PlayerNameBG");
+        nickNameUI = UIManager.GetNickNameUI("UI_ImgPlayerNameBG");
     }
 
     public void ApplyColor(int colorIndex, int ownerViewID)
@@ -29,14 +29,12 @@ public class DisplayColor : MonoBehaviour
 
         if (nickNameUI == null)
         {
-            nickNameUI = GameObject.FindWithTag("PlayerNameBG");
+            nickNameUI = UIManager.GetNickNameUI("UI_ImgPlayerNameBG");
         }
 
-        var uiNickName = nickNameUI.GetOrAddComponent<UI_NickName>();
-
         playerRenderer.material.color = colors[colorIndex];
-        uiNickName.names[colorIndex].gameObject.SetActive(true);
-        uiNickName.healthbars[colorIndex].gameObject.SetActive(true);
-        uiNickName.names[colorIndex].text = cachedPhotonView.Owner.NickName;
+        nickNameUI.names[colorIndex].gameObject.SetActive(true);
+        nickNameUI.healthbars[colorIndex].gameObject.SetActive(true);
+        nickNameUI.names[colorIndex].text = cachedPhotonView.Owner.NickName;
     }
 }

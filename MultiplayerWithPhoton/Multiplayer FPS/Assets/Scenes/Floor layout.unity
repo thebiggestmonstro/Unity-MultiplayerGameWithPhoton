@@ -9978,9 +9978,10 @@ GameObject:
   m_Component:
   - component: {fileID: 78469982}
   - component: {fileID: 78469981}
+  - component: {fileID: 78469983}
   m_Layer: 0
-  m_Name: PlayerAim
-  m_TagString: PlayerAim
+  m_Name: UI_PlayerAim
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10013,6 +10014,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &78469983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 78469980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bc83e5963e9cf749936f9d0cd70c6fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &79370082
 Mesh:
   m_ObjectHideFlags: 0
@@ -96373,9 +96386,10 @@ GameObject:
   - component: {fileID: 747558614}
   - component: {fileID: 747558616}
   - component: {fileID: 747558615}
+  - component: {fileID: 747558617}
   m_Layer: 5
-  m_Name: Txt_WeaponAmmo
-  m_TagString: WeaponAmmo
+  m_Name: UI_TxtWeaponAmmo
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -96498,6 +96512,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 747558613}
   m_CullTransparentMesh: 1
+--- !u!114 &747558617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747558613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30f3dd6285a480f4daf9a40c28715f23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &748128459 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 883868712773154717, guid: d1c3c14a7d1d7b64c8a9855c5bcda044, type: 3}
@@ -225389,9 +225415,10 @@ GameObject:
   - component: {fileID: 1681242409}
   - component: {fileID: 1681242411}
   - component: {fileID: 1681242410}
+  - component: {fileID: 1681242412}
   m_Layer: 5
-  m_Name: Img_PlayerNameBG
-  m_TagString: PlayerNameBG
+  m_Name: UI_ImgPlayerNameBG
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -225532,6 +225559,18 @@ MonoBehaviour:
   secondsText: {fileID: 689845139}
   minutes: 4
   seconds: 59
+--- !u!114 &1681242412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1681242405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67142e06412516148967e3f63978ef23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1682069146 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8724061038185050139, guid: c7ea232a5274a0e48a7d9b4bb2977ac3, type: 3}
@@ -247639,9 +247678,10 @@ GameObject:
   - component: {fileID: 1952125452}
   - component: {fileID: 1952125454}
   - component: {fileID: 1952125453}
+  - component: {fileID: 1952125455}
   m_Layer: 5
-  m_Name: Img_WeaponSlot
-  m_TagString: WeaponSlot
+  m_Name: UI_ImgWeaponSlot
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -247703,6 +247743,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1952125451}
   m_CullTransparentMesh: 1
+--- !u!114 &1952125455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1952125451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cc32fc743130a141b7392bb2456ec50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1952316315 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2031200729203862907, guid: 61977805d7d19464aafd7633fa7864f0, type: 3}

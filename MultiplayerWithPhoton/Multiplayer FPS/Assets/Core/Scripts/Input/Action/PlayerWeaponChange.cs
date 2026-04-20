@@ -1,5 +1,6 @@
 using Photon.Pun;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.UI;
@@ -33,8 +34,8 @@ public class PlayerWeaponChange : MonoBehaviour
 
     private void Start()
     {
-        weaponIcon = GameObject.FindGameObjectWithTag("WeaponSlot").GetOrAddComponent<Image>();
-        ammoAmount = GameObject.FindGameObjectWithTag("WeaponAmmo").GetOrAddComponent<TextMeshProUGUI>();
+        weaponIcon = UIManager.GetSlotUI("UI_ImgWeaponSlot").GetOrAddComponent<Image>();
+        ammoAmount = UIManager.GetAmmoUI("UI_TxtWeaponAmmo").GetOrAddComponent<TextMeshProUGUI>();
 
         _testForWeapons = ObjectManager.GetWeapon("Weapon1Pickup(Clone)");
         if (_testForWeapons == null)
@@ -53,6 +54,16 @@ public class PlayerWeaponChange : MonoBehaviour
     [PunRPC]
     public void SwapWeapon(int weaponNumber)
     {
+        if (weaponIcon == null)
+        {
+            weaponIcon = UIManager.GetSlotUI("UI_ImgWeaponSlot").GetOrAddComponent<Image>();
+        }
+
+        if (ammoAmount == null)
+        {
+            ammoAmount = UIManager.GetAmmoUI("UI_TxtWeaponAmmo").GetOrAddComponent<TextMeshProUGUI>();
+        }
+
         int next1 = (weaponNumber + 1) % 3;
         int next2 = (next1 + 1) % 3;
 

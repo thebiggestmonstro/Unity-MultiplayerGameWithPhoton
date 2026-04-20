@@ -3,20 +3,25 @@ using UnityEngine;
 
 public class PlayerLookAimRef : MonoBehaviour
 {
-    private GameObject _playerAimObject;
-    private PhotonView _photonView;
+    private UI_PlayerAim playerAimUI;
+    private PhotonView photonView;
 
     void Start()
     {
-        _playerAimObject = GameObject.FindWithTag("PlayerAim");
-        _photonView = Util.FindParent<PhotonView>(this.gameObject, null, false);
+        playerAimUI = UIManager.GetAimUI("UI_PlayerAim");
+        photonView = Util.FindParent<PhotonView>(this.gameObject, null, false);
     }
 
     void FixedUpdate()
     {
-        if (_photonView.IsMine)
+        if (playerAimUI == null)
         {
-            transform.position = _playerAimObject.transform.position;
+            playerAimUI = UIManager.GetAimUI("UI_PlayerAim");
+        }
+
+        if (photonView.IsMine)
+        {
+            transform.position = playerAimUI.transform.position;
         }
     }
 }

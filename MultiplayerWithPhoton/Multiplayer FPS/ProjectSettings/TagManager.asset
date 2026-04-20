@@ -4,11 +4,7 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - PlayerAim
   - FollowCamera
-  - PlayerNameBG
-  - WeaponSlot
-  - WeaponAmmo
   layers:
   - Default
   - TransparentFX

@@ -1,4 +1,6 @@
 using Photon.Pun;
+using Photon.Realtime;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Diagnostics;
 
@@ -12,7 +14,7 @@ public class UI_ChooseColor : MonoBehaviour
     {
         Cursor.visible = true;
         panel = Util.FindParent(gameObject, "Panel_ChooseColor", false);
-        playerNameBG = GameObject.FindGameObjectWithTag("PlayerNameBG");
+        playerNameBG = UIManager.GetNameBGUI("UI_ImgPlayerNameBG").gameObject;
         cachedPhotonView = gameObject.GetOrAddComponent<PhotonView>();
     }
 
@@ -33,13 +35,14 @@ public class UI_ChooseColor : MonoBehaviour
 
     private int GetLocalPlayerViewID()
     {
-        foreach (var player in GameObject.FindGameObjectsWithTag("Player"))
+        foreach (var playerController in GameObject.FindObjectsByType<PlayerController>(FindObjectsSortMode.None))
         {
+            GameObject player = playerController.gameObject;
             var pv = player.GetOrAddComponent<PhotonView>();
             if (pv != null && pv.IsMine)
             {
                 return pv.ViewID;
-            } 
+            }
         }
 
         return -1;
@@ -48,9 +51,14 @@ public class UI_ChooseColor : MonoBehaviour
     [PunRPC]
     void SelectedColor(int buttonNumber, int ownerViewID)
     {
-        foreach (var player in GameObject.FindGameObjectsWithTag("Player"))
+        foreach (var playerController in GameObject.FindObjectsByType<PlayerController>(FindObjectsSortMode.None))
         {
-            player.GetOrAddComponent<DisplayColor>()?.ApplyColor(buttonNumber, ownerViewID);
+            playerController.GetOrAddComponent<DisplayColor>()?.ApplyColor(buttonNumber, ownerViewID);
+        }
+
+        if (playerNameBG == null)
+        {
+            playerNameBG = UIManager.GetNameBGUI("UI_ImgPlayerNameBG").gameObject;
         }
 
         playerNameBG.GetOrAddComponent<UI_Timer>().BeginTimer();
