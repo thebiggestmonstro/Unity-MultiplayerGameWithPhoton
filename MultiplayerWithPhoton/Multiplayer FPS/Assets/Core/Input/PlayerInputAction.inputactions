@@ -40,6 +40,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "OpenScoreMenu",
+                    "type": "Button",
+                    "id": "9d22c87a-69f4-49ae-930c-c67b18bb1688",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -150,6 +159,17 @@
                     "processors": "Scale(factor=2)",
                     "groups": "",
                     "action": "Swap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ae06d4db-9742-43c8-af62-6eacbbdf76c4",
+                    "path": "<Keyboard>/k",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OpenScoreMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

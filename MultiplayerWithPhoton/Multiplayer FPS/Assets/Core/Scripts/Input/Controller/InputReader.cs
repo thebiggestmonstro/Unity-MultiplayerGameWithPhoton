@@ -8,12 +8,14 @@ public class InputReader : MonoBehaviour
 
     public System.Action OnJumpPerformed;
     public System.Action<int> OnSwapPerformed;
+    public System.Action OnOpenScoreMenuPerforemd;
 
     private PlayerInput _playerInput;
     private InputAction _moveAction;
     private InputAction _lookAction;
     private InputAction _jumpAction;
     private InputAction _swapAction;
+    private InputAction _openScoreMenuAction;
 
     void Awake()
     {
@@ -22,6 +24,7 @@ public class InputReader : MonoBehaviour
         _lookAction = _playerInput.actions["Look"];
         _jumpAction = _playerInput.actions["Jump"];
         _swapAction = _playerInput.actions["Swap"];
+        _openScoreMenuAction = _playerInput.actions["OpenScoreMenu"];
     }
 
     private void OnEnable()
@@ -32,6 +35,7 @@ public class InputReader : MonoBehaviour
         _lookAction.canceled += StopLook;
         _jumpAction.performed += Jump;
         _swapAction.performed += Swap;
+        _openScoreMenuAction.performed += OpenScoreMenu;
     }
 
     private void OnDisable()
@@ -42,6 +46,7 @@ public class InputReader : MonoBehaviour
         _lookAction.canceled -= StopLook;
         _jumpAction.performed -= Jump;
         _swapAction.performed -= Swap;
+        _openScoreMenuAction.performed -= OpenScoreMenu;
     }
 
     private void Move(InputAction.CallbackContext context)
@@ -73,5 +78,10 @@ public class InputReader : MonoBehaviour
     {
         int weaponNumber = (int)context.ReadValue<float>();
         OnSwapPerformed?.Invoke(weaponNumber);
+    }
+
+    private void OpenScoreMenu(InputAction.CallbackContext context)
+    {
+        OnOpenScoreMenuPerforemd?.Invoke();
     }
 }
