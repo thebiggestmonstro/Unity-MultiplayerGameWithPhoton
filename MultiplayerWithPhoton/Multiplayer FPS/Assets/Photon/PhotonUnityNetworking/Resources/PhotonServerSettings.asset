@@ -48,6 +48,7 @@ MonoBehaviour:
   - AssignColor
   - SelectedColorRPC
   - Count
+  - RemoveMe
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

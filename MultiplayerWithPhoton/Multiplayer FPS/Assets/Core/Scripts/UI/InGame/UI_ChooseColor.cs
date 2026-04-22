@@ -1,8 +1,8 @@
 using Photon.Pun;
 using Photon.Realtime;
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Diagnostics;
 
 public class UI_ChooseColor : MonoBehaviour
 {
@@ -13,7 +13,7 @@ public class UI_ChooseColor : MonoBehaviour
     private void Start()
     {
         Cursor.visible = true;
-        panel = Util.FindParent(gameObject, "Panel_ChooseColor", false);
+        panel = Util.FindParent(gameObject, "UI_PanelChooseColor", false);
         playerNameBG = UIManager.GetNameBGUI("UI_ImgPlayerNameBG").gameObject;
         cachedPhotonView = gameObject.GetOrAddComponent<PhotonView>();
     }

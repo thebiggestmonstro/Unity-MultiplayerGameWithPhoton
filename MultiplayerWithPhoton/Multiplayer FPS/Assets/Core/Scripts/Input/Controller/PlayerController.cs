@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     private PlayerMovement _movement;
     private PlayerWeaponChange _weaponChange;
     private PlayerOpenScoreMenu _openScoreMenu;
+    private PlayerExitGame _exitGame;
 
     private PhotonView _photonView;
     private CinemachineCamera _cam;
@@ -26,6 +27,7 @@ public class PlayerController : MonoBehaviour
         _movement = gameObject.GetOrAddComponent<PlayerMovement>();
         _weaponChange = gameObject.GetOrAddComponent<PlayerWeaponChange>();
         _openScoreMenu = gameObject.GetOrAddComponent<PlayerOpenScoreMenu>();
+        _exitGame = gameObject.GetOrAddComponent<PlayerExitGame>();
         _rigBuilder = gameObject.GetOrAddComponent<RigBuilder>();
     }
 
@@ -59,6 +61,8 @@ public class PlayerController : MonoBehaviour
             _inputReader.OnSwapPerformed += _weaponChange.HandleSwap;
             _inputReader.OnOpenScoreMenuPerforemd -= _openScoreMenu.HandleOpenScoreMenu;
             _inputReader.OnOpenScoreMenuPerforemd += _openScoreMenu.HandleOpenScoreMenu;
+            _inputReader.OnExitGamePerformed -= _exitGame.HandleExitGame;
+            _inputReader.OnExitGamePerformed += _exitGame.HandleExitGame;
         }
     }
 
@@ -69,6 +73,7 @@ public class PlayerController : MonoBehaviour
             _inputReader.OnJumpPerformed -= _movement.HandleJump;
             _inputReader.OnSwapPerformed -= _weaponChange.HandleSwap;
             _inputReader.OnOpenScoreMenuPerforemd -= _openScoreMenu.HandleOpenScoreMenu;
+            _inputReader.OnExitGamePerformed -= _exitGame.HandleExitGame;
         }
     }
 

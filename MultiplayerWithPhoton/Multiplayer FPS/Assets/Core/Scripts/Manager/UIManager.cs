@@ -9,6 +9,7 @@ public class UIManager
     private static Dictionary<string, UI_WeaponSlot> slotUIDict =  new Dictionary<string, UI_WeaponSlot>();
     private static Dictionary<string, UI_PlayerNameBG> nameBGUIDict =  new Dictionary<string, UI_PlayerNameBG>();
     private static Dictionary<string, UI_KillCountPanel> killCountPanelDict = new Dictionary<string, UI_KillCountPanel>();
+    private static Dictionary<string, UI_PlayerCheck> playerCheckDict = new Dictionary<string, UI_PlayerCheck>();
 
     public static void RegisterNickNameUI(string nickNameUIName, UI_NickName nickNameUI)
     {
@@ -128,5 +129,25 @@ public class UIManager
         UI_KillCountPanel killCountPanelUI = null;
         killCountPanelDict.TryGetValue(killCountPanelName, out killCountPanelUI);
         return killCountPanelUI;
+    }
+
+    public static void ResgisterPlayerCheckUI(string playerCheckUIName, UI_PlayerCheck playerCheckUI)
+    {
+        if (!playerCheckDict.ContainsKey(playerCheckUIName))
+        {
+            playerCheckDict.Add(playerCheckUIName, playerCheckUI);
+        }
+    }
+
+    public static void UnResgisterPlayerCheckUI(string playerCheckUIName)
+    {
+        playerCheckDict.Remove(playerCheckUIName);
+    }
+
+    public static UI_PlayerCheck GetPlayerCheckUI(string playerCheckUIName)
+    {
+        UI_PlayerCheck playerCheckUI = null;
+        playerCheckDict.TryGetValue(playerCheckUIName, out playerCheckUI);
+        return playerCheckUI;
     }
 }

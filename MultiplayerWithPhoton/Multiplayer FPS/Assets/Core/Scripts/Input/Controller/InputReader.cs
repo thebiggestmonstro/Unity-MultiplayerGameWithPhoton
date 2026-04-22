@@ -9,6 +9,7 @@ public class InputReader : MonoBehaviour
     public System.Action OnJumpPerformed;
     public System.Action<int> OnSwapPerformed;
     public System.Action OnOpenScoreMenuPerforemd;
+    public System.Action OnExitGamePerformed;
 
     private PlayerInput _playerInput;
     private InputAction _moveAction;
@@ -16,6 +17,7 @@ public class InputReader : MonoBehaviour
     private InputAction _jumpAction;
     private InputAction _swapAction;
     private InputAction _openScoreMenuAction;
+    private InputAction _exitGameAction;
 
     void Awake()
     {
@@ -25,6 +27,7 @@ public class InputReader : MonoBehaviour
         _jumpAction = _playerInput.actions["Jump"];
         _swapAction = _playerInput.actions["Swap"];
         _openScoreMenuAction = _playerInput.actions["OpenScoreMenu"];
+        _exitGameAction = _playerInput.actions["Exit"];
     }
 
     private void OnEnable()
@@ -36,6 +39,7 @@ public class InputReader : MonoBehaviour
         _jumpAction.performed += Jump;
         _swapAction.performed += Swap;
         _openScoreMenuAction.performed += OpenScoreMenu;
+        _exitGameAction.performed += ExitGame;
     }
 
     private void OnDisable()
@@ -47,6 +51,7 @@ public class InputReader : MonoBehaviour
         _jumpAction.performed -= Jump;
         _swapAction.performed -= Swap;
         _openScoreMenuAction.performed -= OpenScoreMenu;
+        _exitGameAction.performed -= ExitGame;
     }
 
     private void Move(InputAction.CallbackContext context)
@@ -83,5 +88,10 @@ public class InputReader : MonoBehaviour
     private void OpenScoreMenu(InputAction.CallbackContext context)
     {
         OnOpenScoreMenuPerforemd?.Invoke();
+    }
+
+    private void ExitGame(InputAction.CallbackContext context)
+    { 
+        OnExitGamePerformed?.Invoke();
     }
 }

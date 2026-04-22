@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
     [SerializeField]
-    private TMP_Text roomNumber;
+    private GameObject connectingText;
     private string levelName = "";
 
     private TypedLobby currentLobby;
@@ -15,8 +15,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     TypedLobby teamBattle = new TypedLobby("teamBattle", LobbyType.Default);
     TypedLobby noRespawn = new TypedLobby("noRespawn", LobbyType.Default);
 
+    private void Start()
+    {
+        connectingText.SetActive(false);
+    }
+
     public void BackToMenu()
     {
+        PhotonNetwork.Disconnect();
         SceneManager.LoadScene("MainMenu");
     }
 
@@ -60,7 +66,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        roomNumber.text = PhotonNetwork.CurrentRoom.Name;
+        connectingText.SetActive(true);
         PhotonNetwork.LoadLevel(levelName);
     }
 }

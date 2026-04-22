@@ -1,11 +1,13 @@
 using Photon.Pun;
+using System.Collections;
 using UnityEngine;
 
-public class DisplayColor : MonoBehaviour
+public class DisplayColor : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     private Color32[] colors;
     private UI_NickName nickNameUI;
+    private UI_PlayerNameBG playerNameBGUI;
     private PhotonView cachedPhotonView;
     private Renderer playerRenderer;
 
@@ -18,6 +20,7 @@ public class DisplayColor : MonoBehaviour
     private void Start()
     {
         nickNameUI = UIManager.GetNickNameUI("UI_ImgPlayerNameBG");
+        playerNameBGUI = UIManager.GetNameBGUI("UI_ImgPlayerNameBG");
     }
 
     public void ApplyColor(int colorIndex, int ownerViewID)
@@ -36,5 +39,36 @@ public class DisplayColor : MonoBehaviour
         nickNameUI.names[colorIndex].gameObject.SetActive(true);
         nickNameUI.healthbars[colorIndex].gameObject.SetActive(true);
         nickNameUI.names[colorIndex].text = cachedPhotonView.Owner.NickName;
+    }
+
+    public void RemoveData()
+    {
+        GetComponent<PhotonView>().RPC("RemoveMe", RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    void RemoveMe()
+    {
+        for (int i = 0; i < playerNameBGUI.gameObject.GetComponent<UI_NickName>().names.Length; i++)
+        {
+            if (GetComponent<PhotonView>().Owner.NickName == playerNameBGUI.GetComponent<UI_NickName>().names[i].text)
+            {
+                playerNameBGUI.GetComponent<UI_NickName>().names[i].gameObject.SetActive(false);
+                playerNameBGUI.GetComponent<UI_NickName>().healthbars[i].gameObject.SetActive(false);
+            }
+        }
+    }
+
+    public void RoomExit()
+    {
+        StartCoroutine(GetReadyToLeave());
+    }
+
+    IEnumerator GetReadyToLeave()
+    {
+        yield return new WaitForSeconds(1);
+        playerNameBGUI.GetComponent<UI_NickName>().Leaving();
+        Cursor.visible = true;
+        PhotonNetwork.LeaveRoom();
     }
 }
