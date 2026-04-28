@@ -49,6 +49,12 @@ MonoBehaviour:
   - SelectedColorRPC
   - Count
   - RemoveMe
+  - GunMuzzleFlash
+  - MuzzleFlashOff
+  - PlaySound
+  - MuzzleFlashOn
+  - UpdateCurrentWeapon
+  - FireRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

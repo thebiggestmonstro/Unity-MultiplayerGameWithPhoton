@@ -10,6 +10,7 @@ public class InputReader : MonoBehaviour
     public System.Action<int> OnSwapPerformed;
     public System.Action OnOpenScoreMenuPerforemd;
     public System.Action OnExitGamePerformed;
+    public System.Action<int> OnFirePerformed;
 
     private PlayerInput _playerInput;
     private InputAction _moveAction;
@@ -18,6 +19,9 @@ public class InputReader : MonoBehaviour
     private InputAction _swapAction;
     private InputAction _openScoreMenuAction;
     private InputAction _exitGameAction;
+    private InputAction _fireAction;
+
+    int _currentWeaponNumber = 0;
 
     void Awake()
     {
@@ -28,6 +32,7 @@ public class InputReader : MonoBehaviour
         _swapAction = _playerInput.actions["Swap"];
         _openScoreMenuAction = _playerInput.actions["OpenScoreMenu"];
         _exitGameAction = _playerInput.actions["Exit"];
+        _fireAction = _playerInput.actions["Fire"];
     }
 
     private void OnEnable()
@@ -40,6 +45,7 @@ public class InputReader : MonoBehaviour
         _swapAction.performed += Swap;
         _openScoreMenuAction.performed += OpenScoreMenu;
         _exitGameAction.performed += ExitGame;
+        _fireAction.performed += Fire;
     }
 
     private void OnDisable()
@@ -52,6 +58,7 @@ public class InputReader : MonoBehaviour
         _swapAction.performed -= Swap;
         _openScoreMenuAction.performed -= OpenScoreMenu;
         _exitGameAction.performed -= ExitGame;
+        _fireAction.performed -= Fire;
     }
 
     private void Move(InputAction.CallbackContext context)
@@ -81,8 +88,8 @@ public class InputReader : MonoBehaviour
 
     private void Swap(InputAction.CallbackContext context)
     {
-        int weaponNumber = (int)context.ReadValue<float>();
-        OnSwapPerformed?.Invoke(weaponNumber);
+        _currentWeaponNumber = (int)context.ReadValue<float>();
+        OnSwapPerformed?.Invoke(_currentWeaponNumber);
     }
 
     private void OpenScoreMenu(InputAction.CallbackContext context)
@@ -93,5 +100,10 @@ public class InputReader : MonoBehaviour
     private void ExitGame(InputAction.CallbackContext context)
     { 
         OnExitGamePerformed?.Invoke();
+    }
+
+    private void Fire(InputAction.CallbackContext context)
+    {
+        OnFirePerformed?.Invoke(_currentWeaponNumber);
     }
 }
