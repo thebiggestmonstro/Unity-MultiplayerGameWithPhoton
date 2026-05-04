@@ -19,6 +19,8 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody rb;
     private Animator anim;
 
+    public bool isDead = false;
+
     void Awake()
     {
         rb = gameObject.GetOrAddComponent<Rigidbody>();
@@ -33,27 +35,36 @@ public class PlayerMovement : MonoBehaviour
 
     public void UpdateAnimation(Vector2 dir)
     {
-        anim.SetFloat("BlendVertical", dir.y, 0.1f, Time.deltaTime);
-        anim.SetFloat("BlendHorizontal", dir.x, 0.1f, Time.deltaTime);
+        if (isDead == false)
+        {
+            anim.SetFloat("BlendVertical", dir.y, 0.1f, Time.deltaTime);
+            anim.SetFloat("BlendHorizontal", dir.x, 0.1f, Time.deltaTime);
+        }
     }
 
     public void ApplyMovement(Vector2 dir)
     {
-        Vector3 moveDir = (transform.forward * dir.y) + (transform.right * dir.x);
-        Vector3 destination = moveDir * moveSpeed * Time.fixedDeltaTime;
-        rb.MovePosition(rb.position + destination);
+        if (isDead == false)
+        {
+            Vector3 moveDir = (transform.forward * dir.y) + (transform.right * dir.x);
+            Vector3 destination = moveDir * moveSpeed * Time.fixedDeltaTime;
+            rb.MovePosition(rb.position + destination);
+        }
     }
 
     public void ApplyRotation(Vector2 lookDir)
     {
-        float rotateY = lookDir.x * rotateSpeed * Time.fixedDeltaTime;
-        Quaternion deltaRotation = Quaternion.Euler(0, rotateY, 0);
-        rb.MoveRotation(rb.rotation * deltaRotation);
+        if (isDead == false)
+        {
+            float rotateY = lookDir.x * rotateSpeed * Time.fixedDeltaTime;
+            Quaternion deltaRotation = Quaternion.Euler(0, rotateY, 0);
+            rb.MoveRotation(rb.rotation * deltaRotation);
+        }
     }
 
     public void HandleJump()
     {
-        if (isGrounded)
+        if (isGrounded && isDead == false)
         {
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
             rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);

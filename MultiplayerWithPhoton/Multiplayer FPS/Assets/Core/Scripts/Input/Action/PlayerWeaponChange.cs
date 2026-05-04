@@ -32,6 +32,8 @@ public class PlayerWeaponChange : MonoBehaviour
     private Image weaponIcon;
     private TextMeshProUGUI ammoAmount;
 
+    public bool isDead = false;
+
     private void Start()
     {
         weaponIcon = UIManager.GetSlotUI("UI_ImgWeaponSlot").GetOrAddComponent<Image>();
@@ -48,7 +50,10 @@ public class PlayerWeaponChange : MonoBehaviour
 
     public void HandleSwap(int weaponNumber)
     {
-        gameObject.GetOrAddComponent<PhotonView>().RPC("SwapWeapon", RpcTarget.AllBuffered, weaponNumber);
+        if (isDead == false)
+        {
+            gameObject.GetOrAddComponent<PhotonView>().RPC("SwapWeapon", RpcTarget.AllBuffered, weaponNumber);
+        }
     }
 
     [PunRPC]

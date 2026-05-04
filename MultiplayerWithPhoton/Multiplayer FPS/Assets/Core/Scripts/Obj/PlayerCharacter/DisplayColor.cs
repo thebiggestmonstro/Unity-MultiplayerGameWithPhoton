@@ -1,6 +1,7 @@
 using Photon.Pun;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DisplayColor : MonoBehaviourPunCallbacks
 {
@@ -23,6 +24,14 @@ public class DisplayColor : MonoBehaviourPunCallbacks
     {
         nickNameUI = UIManager.GetNickNameUI("UI_ImgPlayerNameBG");
         playerNameBGUI = UIManager.GetNameBGUI("UI_ImgPlayerNameBG");
+    }
+
+    private void Update()
+    {
+        if (GetComponent<Animator>().GetBool("Hit"))
+        {
+            StartCoroutine(Recover());   
+        }
     }
 
     public void ApplyColor(int colorIndex, int ownerViewID)
@@ -90,5 +99,40 @@ public class DisplayColor : MonoBehaviourPunCallbacks
                 gameObject.GetOrAddComponent<AudioSource>().Play();
             }
         }
+    }
+
+    public void DeliverDamage(string name, float damageAmt)
+    {
+        GetComponent<PhotonView>().RPC("TakeDamage", RpcTarget.AllBuffered, name, damageAmt);
+    }
+
+    [PunRPC]
+    void TakeDamage(string name, float damageAmt)
+    {
+        for (int i = 0; i < playerNameBGUI.GetComponent<UI_NickName>().names.Length; i++)
+        {
+            if (name == playerNameBGUI.GetComponent<UI_NickName>().names[i].text)
+            {
+                if (playerNameBGUI.GetComponent<UI_NickName>().healthbars[i].gameObject.GetComponent<Image>().fillAmount > 0.1f)
+                {
+                    GetComponent<Animator>().SetBool("Hit", true);
+                    playerNameBGUI.GetComponent<UI_NickName>().healthbars[i].gameObject.GetComponent<Image>().fillAmount -= (damageAmt / 100);
+                }
+                else
+                {
+                    playerNameBGUI.GetComponent<UI_NickName>().healthbars[i].gameObject.GetComponent<Image>().fillAmount = 0;
+                    GetComponent<Animator>().SetBool("Dead", true);
+                    gameObject.GetComponent<PlayerMovement>().isDead =true;
+                    gameObject.GetComponent<PlayerFire>().isDead = true;
+                    gameObject.GetComponent<PlayerWeaponChange>().isDead = true;
+                }
+            }
+        }
+    }
+
+    IEnumerator Recover()
+    {
+        yield return new WaitForSeconds(0.03f);
+        GetComponent<Animator>().SetBool("Hit", false);
     }
 }
