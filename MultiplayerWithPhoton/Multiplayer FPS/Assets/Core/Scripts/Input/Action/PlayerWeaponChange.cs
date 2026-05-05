@@ -42,10 +42,12 @@ public class PlayerWeaponChange : MonoBehaviour
         _testForWeapons = ObjectManager.GetWeapon("Weapon1Pickup(Clone)");
         if (_testForWeapons == null)
         {
-            var spawner = ObjectManager.GetWeaponSpawner("WeaponSpawner1");
-            spawner.SpawnWeaponsStart();
+            if (gameObject.GetComponent<PhotonView>().Owner.IsMasterClient)
+            {
+                var spawner = ObjectManager.GetWeaponSpawner("WeaponSpawner1");
+                spawner.SpawnWeaponsStart();
+            }
         }
-
     }
 
     public void HandleSwap(int weaponNumber)

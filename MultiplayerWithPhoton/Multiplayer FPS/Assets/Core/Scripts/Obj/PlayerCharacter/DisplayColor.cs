@@ -101,17 +101,17 @@ public class DisplayColor : MonoBehaviourPunCallbacks
         }
     }
 
-    public void DeliverDamage(string name, float damageAmt)
+    public void DeliverDamage(string shooterName, string targetName, float damageAmt)
     {
-        GetComponent<PhotonView>().RPC("TakeDamage", RpcTarget.AllBuffered, name, damageAmt);
+        GetComponent<PhotonView>().RPC("TakeDamage", RpcTarget.AllBuffered, shooterName, targetName, damageAmt);
     }
 
     [PunRPC]
-    void TakeDamage(string name, float damageAmt)
+    void TakeDamage(string shooterName, string targetName, float damageAmt)
     {
         for (int i = 0; i < playerNameBGUI.GetComponent<UI_NickName>().names.Length; i++)
         {
-            if (name == playerNameBGUI.GetComponent<UI_NickName>().names[i].text)
+            if (targetName == playerNameBGUI.GetComponent<UI_NickName>().names[i].text)
             {
                 if (playerNameBGUI.GetComponent<UI_NickName>().healthbars[i].gameObject.GetComponent<Image>().fillAmount > 0.1f)
                 {
@@ -125,6 +125,9 @@ public class DisplayColor : MonoBehaviourPunCallbacks
                     gameObject.GetComponent<PlayerMovement>().isDead =true;
                     gameObject.GetComponent<PlayerFire>().isDead = true;
                     gameObject.GetComponent<PlayerWeaponChange>().isDead = true;
+                    gameObject.GetComponentInChildren<PlayerLookAimRef>().isDead = true;
+                    playerNameBGUI.GetComponent<UI_NickName>().RunMessage(shooterName, targetName);
+                    gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
                 }
             }
         }

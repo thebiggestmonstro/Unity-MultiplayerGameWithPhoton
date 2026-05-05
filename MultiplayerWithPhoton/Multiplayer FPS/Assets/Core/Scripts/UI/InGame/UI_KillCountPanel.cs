@@ -35,7 +35,7 @@ public class UI_KillCountPanel : MonoBehaviour
             string playerName = namesObject.GetComponent<UI_NickName>().names[i].text;
             if (playerName != "name" && !string.IsNullOrEmpty(playerName))
             {
-                highestKills.Add(new UI_KillScore(playerName, Random.Range(1, 2900)));
+                highestKills.Add(new UI_KillScore(playerName, namesObject.GetComponent<UI_NickName>().killScore[i]));
             }
         }
 

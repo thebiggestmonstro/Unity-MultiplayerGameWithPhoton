@@ -5,6 +5,7 @@ public class PlayerLookAimRef : MonoBehaviour
 {
     private UI_PlayerAim playerAimUI;
     private PhotonView photonView;
+    public bool isDead = false;
 
     void Start()
     {
@@ -19,7 +20,7 @@ public class PlayerLookAimRef : MonoBehaviour
             playerAimUI = UIManager.GetAimUI("UI_PlayerAim");
         }
 
-        if (photonView.IsMine)
+        if (photonView.IsMine && isDead == false)
         {
             transform.position = playerAimUI.transform.position;
         }

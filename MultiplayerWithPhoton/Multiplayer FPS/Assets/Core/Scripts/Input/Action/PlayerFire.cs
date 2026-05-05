@@ -52,7 +52,7 @@ public class PlayerFire : MonoBehaviour
 
             if (hit.transform.gameObject.GetComponent<DisplayColor>() != null)
             {
-                hit.transform.gameObject.GetComponent<DisplayColor>().DeliverDamage(hit.transform.gameObject.GetComponent<PhotonView>().Owner.NickName, damageAmts[weaponNumber]);
+                hit.transform.gameObject.GetComponent<DisplayColor>().DeliverDamage(_photonView.Owner.NickName, hit.transform.gameObject.GetComponent<PhotonView>().Owner.NickName, damageAmts[weaponNumber]);
             }
 
             shooterName = GetComponent<PhotonView>().Owner.NickName;
