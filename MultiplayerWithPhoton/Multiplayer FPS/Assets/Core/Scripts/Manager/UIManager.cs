@@ -10,6 +10,7 @@ public class UIManager
     private static Dictionary<string, UI_PlayerNameBG> nameBGUIDict =  new Dictionary<string, UI_PlayerNameBG>();
     private static Dictionary<string, UI_KillCountPanel> killCountPanelDict = new Dictionary<string, UI_KillCountPanel>();
     private static Dictionary<string, UI_PlayerCheck> playerCheckDict = new Dictionary<string, UI_PlayerCheck>();
+    private static Dictionary<string, UI_RespawnTimer> respawnDict = new Dictionary<string, UI_RespawnTimer>();
 
     public static void RegisterNickNameUI(string nickNameUIName, UI_NickName nickNameUI)
     {
@@ -149,5 +150,25 @@ public class UIManager
         UI_PlayerCheck playerCheckUI = null;
         playerCheckDict.TryGetValue(playerCheckUIName, out playerCheckUI);
         return playerCheckUI;
+    }
+
+    public static void ResgisterRespawnPanelUI(string resPawnPanelUIName, UI_RespawnTimer respawnPanel)
+    {
+        if (!respawnDict.ContainsKey(resPawnPanelUIName))
+        {
+            respawnDict.Add(resPawnPanelUIName, respawnPanel);
+        }
+    }
+
+    public static void UnResgisterRespawnPanelUI(string resPawnPanelUIName)
+    {
+        respawnDict.Remove(resPawnPanelUIName);
+    }
+
+    public static UI_RespawnTimer GetRespawnPanelUI(string resPawnPanelUIName)
+    {
+        UI_RespawnTimer respawnkUI = null;
+        respawnDict.TryGetValue(resPawnPanelUIName, out respawnkUI);
+        return respawnkUI;
     }
 }

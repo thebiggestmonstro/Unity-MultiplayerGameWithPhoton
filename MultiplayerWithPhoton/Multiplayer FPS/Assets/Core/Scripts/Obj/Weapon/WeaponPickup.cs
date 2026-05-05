@@ -9,6 +9,8 @@ public class WeaponPickup : MonoBehaviour
     float _respawnTime = 5;
     [SerializeField]
     int weaponType = 1;
+    [SerializeField]
+    int ammoRefillAmt = 10;
 
     private void Awake()
     {
@@ -26,6 +28,8 @@ public class WeaponPickup : MonoBehaviour
         {
             gameObject.GetOrAddComponent<PhotonView>().RPC("PlayPickupAudio",RpcTarget.All);
             gameObject.GetOrAddComponent<PhotonView>().RPC("DisableWeapon", RpcTarget.All);
+            other.GetComponent<PlayerWeaponChange>().ammoAmounts[weaponType - 1] += ammoRefillAmt;
+            other.GetComponent<PlayerWeaponChange>().UpdatePickup();
         }
     }
 

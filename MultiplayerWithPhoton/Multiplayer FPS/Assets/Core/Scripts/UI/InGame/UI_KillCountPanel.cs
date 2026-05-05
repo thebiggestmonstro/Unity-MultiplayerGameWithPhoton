@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class UI_KillCountPanel : MonoBehaviour
@@ -14,6 +15,12 @@ public class UI_KillCountPanel : MonoBehaviour
     [SerializeField]
     GameObject killCountPanel;
     private GameObject namesObject;
+    [SerializeField]
+    private GameObject winnerPanel;
+    [SerializeField]
+    TextMeshProUGUI winnerText;
+
+    public bool countDown = true;
 
     private void Awake()
     {
@@ -24,6 +31,7 @@ public class UI_KillCountPanel : MonoBehaviour
     {
         namesObject = UIManager.GetNameBGUI("UI_ImgPlayerNameBG").gameObject;
         killCountPanel.SetActive(false);
+        winnerPanel.SetActive(false);
     }
 
     public void UpdateScoreBoard()
@@ -53,6 +61,28 @@ public class UI_KillCountPanel : MonoBehaviour
                 playerNames[i].text = "";
                 killAmounts[i].text = "";
             }
+        }
+    }
+
+    public void TimeOver()
+    {
+        killCountPanel.SetActive(true);
+        winnerPanel.SetActive(true);
+        highestKills.Clear();
+
+        for (int i = 0; i < playerNames.Length; i++)
+        {
+            highestKills.Add(new UI_KillScore(namesObject.GetComponent<UI_NickName>().names[i].text, namesObject.GetComponent<UI_NickName>().killScore[i]));
+        }
+
+        highestKills.Sort();
+        winnerText.text = highestKills[0].playerName;
+
+        for (int i = 0; i < playerNames.Length; i++)
+        {
+            string pName = highestKills[i].playerName;
+            playerNames[i].text = (pName == "name") ? "" : pName;
+            killAmounts[i].text = (pName == "name") ? "" : highestKills[i].playerKills.ToString();
         }
     }
 }

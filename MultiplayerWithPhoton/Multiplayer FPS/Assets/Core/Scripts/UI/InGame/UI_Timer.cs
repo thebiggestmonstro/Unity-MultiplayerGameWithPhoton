@@ -8,41 +8,66 @@ public class UI_Timer : MonoBehaviour
     TextMeshProUGUI minutesText;
     [SerializeField]
     TextMeshProUGUI secondsText;
+    [SerializeField] 
+    int totalSeconds = 299; 
     [SerializeField]
-    int minutes = 4;
-    [SerializeField]
-    int seconds = 59;
+    GameObject killCountPanel;
+    [HideInInspector]
+    public bool timeStop = false;
+
+    private double startTime;
+    private bool isTimerRunning = false;
 
     public void BeginTimer()
     {
-        gameObject.GetOrAddComponent<PhotonView>().RPC("Count", RpcTarget.AllBuffered);
+        gameObject.GetOrAddComponent<PhotonView>().RPC("RPC_StartTimer", RpcTarget.AllBuffered, PhotonNetwork.Time);
     }
 
     [PunRPC]
-    void Count()
+    void RPC_StartTimer(double serverStartTime)
     {
-        BeginCounting();
+        startTime = serverStartTime;
+        isTimerRunning = true;
     }
 
-    void BeginCounting()
+    void Update()
     {
-        CancelInvoke();
-        InvokeRepeating("TimeCountDown", 1, 1);
+        if (!isTimerRunning)
+        {
+            return;
+        }
+
+        double elapsedTime = PhotonNetwork.Time - startTime;
+        int remainingTime = Mathf.Max(0, totalSeconds - (int)elapsedTime);
+
+        UpdateUI(remainingTime);
+
+        if (remainingTime <= 0)
+        {
+            OnTimerEnd();
+        }
     }
 
-    void TimeCountDown()
+    void UpdateUI(int timeInSeconds)
     {
-        if (seconds > 0)
+        int min = timeInSeconds / 60;
+        int sec = timeInSeconds % 60;
+
+        minutesText.text = min.ToString();
+        secondsText.text = sec.ToString("D2");
+    }
+
+    void OnTimerEnd()
+    {
+        if (!isTimerRunning)
         {
-            seconds -= 1;
-        }
-        else if (minutes > 0)
-        {
-            minutes -= 1;
-            seconds = 59;
+            return;
         }
 
-        secondsText.text = seconds.ToString("D2");
-        minutesText.text = minutes.ToString(); 
+        timeStop = true;
+        isTimerRunning = false;
+        var killPanelScript = killCountPanel.GetComponent<UI_KillCountPanel>();
+        killPanelScript.countDown = false;
+        killPanelScript.TimeOver();
     }
 }

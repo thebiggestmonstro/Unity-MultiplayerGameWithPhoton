@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 using Unity.Cinemachine;
 using Photon.Pun;
 using UnityEngine.Animations.Rigging;
+using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
@@ -19,6 +20,11 @@ public class PlayerController : MonoBehaviour
     private GameObject _camObject;
 
     private RigBuilder _rigBuilder;
+    private Vector3 startPos;
+    private bool respawned = false;
+    private GameObject respawnPanel;
+
+    public bool gameOver = false;
 
     void Awake()
     {
@@ -47,6 +53,8 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        respawnPanel = UIManager.GetRespawnPanelUI("UI_RespawnPanel").gameObject;
+        startPos = gameObject.transform.position;
         _camObject = GameObject.FindWithTag("FollowCamera");
         _cam = _camObject.GetOrAddComponent<CinemachineCamera>();
         _cam.Follow = gameObject.transform;
@@ -89,8 +97,20 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        Vector2 moveDir = _inputReader.MoveInput;
-        _movement.UpdateAnimation(moveDir);
+        if (_movement.isDead == false)
+        {
+            respawnPanel.SetActive(false);
+            Vector2 moveDir = _inputReader.MoveInput;
+            _movement.UpdateAnimation(moveDir);
+        }
+
+        if (_movement.isDead && respawned == false && gameOver == false)
+        {
+            respawned = !respawned;
+            respawnPanel.SetActive(true);
+            respawnPanel.GetComponent<UI_RespawnTimer>().enabled = true;
+            StartCoroutine(RespawnWait());
+        }
     }
 
     private void FixedUpdate()
@@ -106,5 +126,16 @@ public class PlayerController : MonoBehaviour
         _movement.CheckGround();
         _movement.ApplyRotation(lookDir);
         _movement.ApplyMovement(moveDir);
+    }
+
+    IEnumerator RespawnWait()
+    {
+        yield return new WaitForSeconds(3);
+        _movement.isDead = false;
+        _weaponChange.isDead = false;
+        _fire.isDead = false;
+        respawned = !respawned;
+        gameObject.transform.position = startPos;
+        GetComponent<DisplayColor>().Respawn(_photonView.Owner.NickName);
     }
 }

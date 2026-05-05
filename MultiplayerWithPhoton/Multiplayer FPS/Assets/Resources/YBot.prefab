@@ -6061,6 +6061,7 @@ MonoBehaviour:
   - {fileID: -983341342, guid: cf0e3ca398650c94999289574264feef, type: 3}
   - {fileID: 93271945, guid: af0a4d54d92158a4ca247fb89b22943d, type: 3}
   ammoAmounts: 32000000190000000f000000
+  ammoAmount: {fileID: 0}
   isDead: 0
 --- !u!114 &-2083912059471715380
 MonoBehaviour:
@@ -6119,6 +6120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 760c4128732d58f42b3848a9c2cc7b3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameOver: 0
 --- !u!114 &5315617699849278679
 MonoBehaviour:
   m_ObjectHideFlags: 0

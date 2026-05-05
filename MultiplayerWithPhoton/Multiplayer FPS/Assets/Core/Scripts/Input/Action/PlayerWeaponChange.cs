@@ -25,12 +25,12 @@ public class PlayerWeaponChange : MonoBehaviour
     private GameObject[] weapons;
     [SerializeField]
     private Sprite[] weaponIcons;
-    [SerializeField]
-    private int[] ammoAmounts;
+    public int[] ammoAmounts;
 
     private WeaponPickup _testForWeapons;
     private Image weaponIcon;
-    private TextMeshProUGUI ammoAmount;
+    public  TextMeshProUGUI ammoAmount;
+    private int usingWeaponNumber = 0;
 
     public bool isDead = false;
 
@@ -38,6 +38,10 @@ public class PlayerWeaponChange : MonoBehaviour
     {
         weaponIcon = UIManager.GetSlotUI("UI_ImgWeaponSlot").GetOrAddComponent<Image>();
         ammoAmount = UIManager.GetAmmoUI("UI_TxtWeaponAmmo").GetOrAddComponent<TextMeshProUGUI>();
+
+        ammoAmounts[0] = 60;
+        ammoAmounts[1] = 30;
+        ammoAmounts[2] = 10;
 
         _testForWeapons = ObjectManager.GetWeapon("Weapon1Pickup(Clone)");
         if (_testForWeapons == null)
@@ -74,6 +78,7 @@ public class PlayerWeaponChange : MonoBehaviour
         int next1 = (weaponNumber + 1) % 3;
         int next2 = (next1 + 1) % 3;
 
+        usingWeaponNumber = weaponNumber;
         weapons[weaponNumber].SetActive(true);
         weapons[next1].SetActive(false);
         weapons[next2].SetActive(false);
@@ -85,5 +90,10 @@ public class PlayerWeaponChange : MonoBehaviour
         rightHand.data.target = rightTargets[weaponNumber];
         leftThumb.data.target = thumbTargets[weaponNumber];
         rig.Build();
+    }
+
+    public void UpdatePickup()
+    {
+        ammoAmount.text = ammoAmounts[usingWeaponNumber].ToString();
     }
 }

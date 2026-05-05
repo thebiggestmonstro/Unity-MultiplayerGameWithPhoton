@@ -15,6 +15,7 @@ public class PlayerFire : MonoBehaviour
     private PhotonView _photonView;
     private DisplayColor _displayColor;
     private int _currentWeaponNumber = 0;
+    private PlayerWeaponChange weaponChangeComponent;
 
     public bool isDead = false;
 
@@ -22,6 +23,11 @@ public class PlayerFire : MonoBehaviour
     {
         _photonView = GetComponent<PhotonView>();
         _displayColor = GetComponent<DisplayColor>();
+    }
+
+    private void Start()
+    {
+        weaponChangeComponent = GetComponent<PlayerWeaponChange>();
     }
 
     public void HandleFire(int weaponNumber)
@@ -36,6 +42,11 @@ public class PlayerFire : MonoBehaviour
             return;
         }
 
+        if (weaponChangeComponent.ammoAmounts[weaponNumber] <= 0)
+        {
+            return;
+        }
+
         _photonView.RPC(nameof(FireRPC), RpcTarget.All, weaponNumber);
         _displayColor.PlayGunShot(_photonView.Owner.NickName, weaponNumber);
 
@@ -45,6 +56,9 @@ public class PlayerFire : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, 500))
         {
+            weaponChangeComponent.ammoAmounts[weaponNumber]--;
+            weaponChangeComponent.ammoAmount.text = weaponChangeComponent.ammoAmounts[weaponNumber].ToString();
+
             if (hit.transform.gameObject.GetComponent<PhotonView>() != null)
             {
                 targetName =  hit.transform.gameObject.GetComponent<PhotonView>().Owner.NickName;

@@ -59,6 +59,8 @@ MonoBehaviour:
   - TakeDamage
   - DisplayMessage
   - MessageOff
+  - ResetForReplay
+  - RPC_StartTimer
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

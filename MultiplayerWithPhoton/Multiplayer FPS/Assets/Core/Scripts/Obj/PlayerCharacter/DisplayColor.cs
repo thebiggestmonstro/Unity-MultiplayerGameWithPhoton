@@ -11,12 +11,12 @@ public class DisplayColor : MonoBehaviourPunCallbacks
     AudioClip[] gunShotSounds;
     private UI_NickName nickNameUI;
     private UI_PlayerNameBG playerNameBGUI;
-    private PhotonView cachedPhotonView;
+    private PhotonView pv;
     private Renderer playerRenderer;
 
     private void Awake()
     {
-        cachedPhotonView = gameObject.GetOrAddComponent<PhotonView>();
+        pv = gameObject.GetOrAddComponent<PhotonView>();
         playerRenderer = transform.GetChild(1).gameObject.GetOrAddComponent<Renderer>();
     }
 
@@ -24,6 +24,7 @@ public class DisplayColor : MonoBehaviourPunCallbacks
     {
         nickNameUI = UIManager.GetNickNameUI("UI_ImgPlayerNameBG");
         playerNameBGUI = UIManager.GetNameBGUI("UI_ImgPlayerNameBG");
+        InvokeRepeating("CheckTime", 1, 1);
     }
 
     private void Update()
@@ -36,7 +37,7 @@ public class DisplayColor : MonoBehaviourPunCallbacks
 
     public void ApplyColor(int colorIndex, int ownerViewID)
     {
-        if (cachedPhotonView.ViewID != ownerViewID)
+        if (pv.ViewID != ownerViewID)
         {
             return;
         }
@@ -49,7 +50,7 @@ public class DisplayColor : MonoBehaviourPunCallbacks
         playerRenderer.material.color = colors[colorIndex];
         nickNameUI.names[colorIndex].gameObject.SetActive(true);
         nickNameUI.healthbars[colorIndex].gameObject.SetActive(true);
-        nickNameUI.names[colorIndex].text = cachedPhotonView.Owner.NickName;
+        nickNameUI.names[colorIndex].text = pv.Owner.NickName;
     }
 
     public void RemoveData()
@@ -62,7 +63,7 @@ public class DisplayColor : MonoBehaviourPunCallbacks
     {
         for (int i = 0; i < playerNameBGUI.gameObject.GetComponent<UI_NickName>().names.Length; i++)
         {
-            if (GetComponent<PhotonView>().Owner.NickName == playerNameBGUI.GetComponent<UI_NickName>().names[i].text)
+            if (pv.Owner.NickName == playerNameBGUI.GetComponent<UI_NickName>().names[i].text)
             {
                 playerNameBGUI.GetComponent<UI_NickName>().names[i].gameObject.SetActive(false);
                 playerNameBGUI.GetComponent<UI_NickName>().healthbars[i].gameObject.SetActive(false);
@@ -103,7 +104,7 @@ public class DisplayColor : MonoBehaviourPunCallbacks
 
     public void DeliverDamage(string shooterName, string targetName, float damageAmt)
     {
-        GetComponent<PhotonView>().RPC("TakeDamage", RpcTarget.AllBuffered, shooterName, targetName, damageAmt);
+        pv.RPC("TakeDamage", RpcTarget.AllBuffered, shooterName, targetName, damageAmt);
     }
 
     [PunRPC]
@@ -137,5 +138,41 @@ public class DisplayColor : MonoBehaviourPunCallbacks
     {
         yield return new WaitForSeconds(0.03f);
         GetComponent<Animator>().SetBool("Hit", false);
+    }
+
+    public void Respawn(string playerName)
+    {
+        pv.RPC("ResetForReplay",RpcTarget.AllBuffered, playerName);
+    }
+
+    [PunRPC]
+    void ResetForReplay(string playerName)
+    {
+        for (int i = 0; i < playerNameBGUI.GetComponent<UI_NickName>().names.Length; i++)
+        {
+            if (playerName == playerNameBGUI.GetComponent<UI_NickName>().names[i].text)
+            {
+                GetComponent<Animator>().SetBool("Dead", false);
+                gameObject.GetComponent<PlayerWeaponChange>().isDead= false;
+                gameObject.GetComponent<PlayerMovement>().isDead = false;
+                gameObject.GetComponent<PlayerFire>().isDead = false;
+                gameObject.GetComponentInChildren<PlayerLookAimRef>().isDead = false;
+                gameObject.layer = LayerMask.NameToLayer("Default");
+                playerNameBGUI.GetComponent<UI_NickName>().healthbars[i].gameObject.GetComponent<Image>().fillAmount = 1;
+            }
+        }
+    }
+
+    void CheckTime()
+    {
+        if (playerNameBGUI.GetComponent<UI_Timer>().timeStop == true)
+        {
+            gameObject.GetComponent<PlayerController>().gameOver = true;
+            gameObject.GetComponent<PlayerWeaponChange>().isDead = true;
+            gameObject.GetComponent<PlayerMovement>().isDead = true;
+            gameObject.GetComponent<PlayerFire>().isDead = true;
+            gameObject.GetComponentInChildren<PlayerLookAimRef>().isDead = true;
+            gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
+        }
     }
 }
