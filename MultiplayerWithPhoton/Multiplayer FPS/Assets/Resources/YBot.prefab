@@ -6158,10 +6158,24 @@ MonoBehaviour:
     rgba: 4289991293
   - serializedVersion: 2
     rgba: 4282269256
+  teamColors:
+  - serializedVersion: 2
+    rgba: 4279374516
+  - serializedVersion: 2
+    rgba: 4279374516
+  - serializedVersion: 2
+    rgba: 4279374516
+  - serializedVersion: 2
+    rgba: 4286449427
+  - serializedVersion: 2
+    rgba: 4286449427
+  - serializedVersion: 2
+    rgba: 4286449427
   gunShotSounds:
   - {fileID: 8300000, guid: 93fba0b1bf5014543918fa775911b6a3, type: 3}
   - {fileID: 8300000, guid: 733a0ff7727334749a0381b7092162b3, type: 3}
   - {fileID: 8300000, guid: 56f5b6fa20679894d8658d743a03e1e4, type: 3}
+  teamMode: 0
 --- !u!136 &8883637921174227551
 CapsuleCollider:
   m_ObjectHideFlags: 0

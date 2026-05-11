@@ -9,6 +9,7 @@ public class UIManager
     private static Dictionary<string, UI_WeaponSlot> slotUIDict =  new Dictionary<string, UI_WeaponSlot>();
     private static Dictionary<string, UI_PlayerNameBG> nameBGUIDict =  new Dictionary<string, UI_PlayerNameBG>();
     private static Dictionary<string, UI_KillCountPanel> killCountPanelDict = new Dictionary<string, UI_KillCountPanel>();
+    private static Dictionary<string, UI_TeamKillCountPanel> teamKillCountPanelDict = new Dictionary<string, UI_TeamKillCountPanel>();
     private static Dictionary<string, UI_PlayerCheck> playerCheckDict = new Dictionary<string, UI_PlayerCheck>();
     private static Dictionary<string, UI_RespawnTimer> respawnDict = new Dictionary<string, UI_RespawnTimer>();
 
@@ -129,6 +130,26 @@ public class UIManager
     {
         UI_KillCountPanel killCountPanelUI = null;
         killCountPanelDict.TryGetValue(killCountPanelName, out killCountPanelUI);
+        return killCountPanelUI;
+    }
+
+    public static void ResgisterTeamKillCountPanelUI(string killCountPanelName, UI_TeamKillCountPanel killCountPanelUI)
+    {
+        if (!teamKillCountPanelDict.ContainsKey(killCountPanelName))
+        {
+            teamKillCountPanelDict.Add(killCountPanelName, killCountPanelUI);
+        }
+    }
+
+    public static void UnResgisterTeamKillCountPanelUI(string killCountPanelName)
+    {
+        teamKillCountPanelDict.Remove(killCountPanelName);
+    }
+
+    public static UI_TeamKillCountPanel GetTeamKillCountPanelUI(string killCountPanelName)
+    {
+        UI_TeamKillCountPanel killCountPanelUI = null;
+        teamKillCountPanelDict.TryGetValue(killCountPanelName, out killCountPanelUI);
         return killCountPanelUI;
     }
 

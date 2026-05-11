@@ -15,6 +15,7 @@ public class UI_NickName : MonoBehaviourPunCallbacks
     [SerializeField]
     TextMeshProUGUI messageText;
     public int[] killScore;
+    public bool teamMode = false;
 
     private PhotonView pv;
     private Coroutine messageCoroutine;

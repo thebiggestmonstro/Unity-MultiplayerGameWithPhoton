@@ -12,6 +12,8 @@ public class UI_Timer : MonoBehaviour
     int totalSeconds = 299; 
     [SerializeField]
     GameObject killCountPanel;
+    [SerializeField]
+    GameObject teamKillCountPanel;
     [HideInInspector]
     public bool timeStop = false;
 
@@ -64,10 +66,19 @@ public class UI_Timer : MonoBehaviour
             return;
         }
 
-        timeStop = true;
-        isTimerRunning = false;
-        var killPanelScript = killCountPanel.GetComponent<UI_KillCountPanel>();
-        killPanelScript.countDown = false;
-        killPanelScript.TimeOver();
+        if (gameObject.GetComponent<UI_NickName>().teamMode == false)
+        {
+            killCountPanel.GetComponent<UI_KillCountPanel>().countDown = false;
+            killCountPanel.GetComponent<UI_KillCountPanel>().TimeOver();
+            timeStop = true;
+            isTimerRunning = false;
+        }
+        if (gameObject.GetComponent<UI_NickName>().teamMode ==true)
+        {
+            teamKillCountPanel.GetComponent<UI_TeamKillCountPanel>().countDown = false;
+            teamKillCountPanel.GetComponent<UI_TeamKillCountPanel>().TimeOver();
+            timeStop = true;
+            isTimerRunning = false;
+        }
     }
 }

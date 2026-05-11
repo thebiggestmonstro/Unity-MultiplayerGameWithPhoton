@@ -1,5 +1,6 @@
 using Photon.Pun;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,11 +9,14 @@ public class DisplayColor : MonoBehaviourPunCallbacks
     [SerializeField]
     private Color32[] colors;
     [SerializeField]
+    private Color32[] teamColors;
+    [SerializeField]
     AudioClip[] gunShotSounds;
     private UI_NickName nickNameUI;
     private UI_PlayerNameBG playerNameBGUI;
     private PhotonView pv;
     private Renderer playerRenderer;
+    public bool teamMode = false;
 
     private void Awake()
     {
@@ -25,6 +29,7 @@ public class DisplayColor : MonoBehaviourPunCallbacks
         nickNameUI = UIManager.GetNickNameUI("UI_ImgPlayerNameBG");
         playerNameBGUI = UIManager.GetNameBGUI("UI_ImgPlayerNameBG");
         InvokeRepeating("CheckTime", 1, 1);
+        teamMode = nickNameUI.GetComponent<UI_NickName>().teamMode;
     }
 
     private void Update()
@@ -47,10 +52,20 @@ public class DisplayColor : MonoBehaviourPunCallbacks
             nickNameUI = UIManager.GetNickNameUI("UI_ImgPlayerNameBG");
         }
 
-        playerRenderer.material.color = colors[colorIndex];
-        nickNameUI.names[colorIndex].gameObject.SetActive(true);
-        nickNameUI.healthbars[colorIndex].gameObject.SetActive(true);
-        nickNameUI.names[colorIndex].text = pv.Owner.NickName;
+        if (teamMode == false)
+        {
+            playerRenderer.material.color = colors[colorIndex];
+            nickNameUI.names[colorIndex].gameObject.SetActive(true);
+            nickNameUI.healthbars[colorIndex].gameObject.SetActive(true);
+            nickNameUI.names[colorIndex].text = pv.Owner.NickName;
+        }
+        else if (teamMode)
+        {
+            playerRenderer.material.color = teamColors[colorIndex];
+            nickNameUI.names[colorIndex].gameObject.SetActive(true);
+            nickNameUI.healthbars[colorIndex].gameObject.SetActive(true);
+            nickNameUI.names[colorIndex].text = pv.Owner.NickName;
+        }
     }
 
     public void RemoveData()
@@ -86,7 +101,7 @@ public class DisplayColor : MonoBehaviourPunCallbacks
 
     public void PlayGunShot(string name, int weaponNumber)
     {
-        GetComponent<PhotonView>().RPC("PlaySound", RpcTarget.All, name,weaponNumber);
+        pv.RPC("PlaySound", RpcTarget.All, name,weaponNumber);
     }
 
     [PunRPC]
@@ -94,7 +109,7 @@ public class DisplayColor : MonoBehaviourPunCallbacks
     {
         for (int i = 0; i < playerNameBGUI.GetComponent<UI_NickName>().names.Length; i++)
         {
-            if (name == playerNameBGUI.GetComponent<UI_NickName>().names[i].text)
+            if (name == playerNameBGUI.GetOrAddComponent<UI_NickName>().names[i].text)
             {
                 gameObject.GetOrAddComponent<AudioSource>().clip = gunShotSounds[weaponNumber];
                 gameObject.GetOrAddComponent<AudioSource>().Play();
