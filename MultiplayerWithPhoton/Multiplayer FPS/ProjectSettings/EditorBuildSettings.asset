@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TeamBattle.unity
     guid: f77c7435bf1c3ad42811843a72de07ae
+  - enabled: 1
+    path: Assets/Scenes/NoRespawn.unity
+    guid: 42e353386f8920a4c83dc7c2639d4b64
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 4adedffcc7b396046ba080696fa4862c, type: 3}
   m_UseUCBPForAssetBundles: 0

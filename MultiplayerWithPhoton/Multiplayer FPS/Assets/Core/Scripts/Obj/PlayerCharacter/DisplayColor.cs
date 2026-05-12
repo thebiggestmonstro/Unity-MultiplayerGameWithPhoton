@@ -13,9 +13,12 @@ public class DisplayColor : MonoBehaviourPunCallbacks
     [SerializeField]
     AudioClip[] gunShotSounds;
     private UI_NickName nickNameUI;
+
     private UI_PlayerNameBG playerNameBGUI;
     private PhotonView pv;
     private Renderer playerRenderer;
+    private bool canRespawn = false;
+    
     public bool teamMode = false;
 
     private void Awake()
@@ -30,6 +33,8 @@ public class DisplayColor : MonoBehaviourPunCallbacks
         playerNameBGUI = UIManager.GetNameBGUI("UI_ImgPlayerNameBG");
         InvokeRepeating("CheckTime", 1, 1);
         teamMode = nickNameUI.GetComponent<UI_NickName>().teamMode;
+        canRespawn = nickNameUI.GetComponent<UI_NickName>().noRespawnMode;
+        GetComponent<PlayerController>().noRespawn = canRespawn;
     }
 
     private void Update()
@@ -189,5 +194,18 @@ public class DisplayColor : MonoBehaviourPunCallbacks
             gameObject.GetComponentInChildren<PlayerLookAimRef>().isDead = true;
             gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
         }
+    }
+
+    public void NoRespawnExit()
+    {
+        nickNameUI.GetComponent<UI_NickName>().eliminationPanel.SetActive(true);
+        StartCoroutine(WaitToExit());
+    }
+
+    IEnumerator WaitToExit()
+    {
+        yield return new WaitForSeconds(3);
+        RemoveMe();
+        RoomExit();
     }
 }

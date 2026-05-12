@@ -23,8 +23,11 @@ public class PlayerController : MonoBehaviour
     private Vector3 startPos;
     private bool respawned = false;
     private GameObject respawnPanel;
+    private GameObject killCountPanel;
+    private bool startChecking = false;
 
     public bool gameOver = false;
+    public bool noRespawn;
 
     void Awake()
     {
@@ -54,6 +57,7 @@ public class PlayerController : MonoBehaviour
         }
 
         respawnPanel = UIManager.GetRespawnPanelUI("UI_RespawnPanel").gameObject;
+        killCountPanel = UIManager.GetKillCountPanelUI("UI_KillCountPanelParent").gameObject;
         startPos = gameObject.transform.position;
         _camObject = GameObject.FindWithTag("FollowCamera");
         _cam = _camObject.GetOrAddComponent<CinemachineCamera>();
@@ -104,12 +108,24 @@ public class PlayerController : MonoBehaviour
             _movement.UpdateAnimation(moveDir);
         }
 
-        if (_movement.isDead && respawned == false && gameOver == false)
+        if (_movement.isDead && respawned == false && gameOver == false && noRespawn == false)
         {
             respawned = !respawned;
             respawnPanel.SetActive(true);
             respawnPanel.GetComponent<UI_RespawnTimer>().enabled = true;
             StartCoroutine(RespawnWait());
+        }
+
+        if (_movement.isDead && respawned == false && gameOver == false && noRespawn == true)
+        {
+            respawned = true;
+            GetComponent<DisplayColor>().NoRespawnExit();
+        }
+
+        if (PhotonNetwork.CurrentRoom.PlayerCount > 1 && startChecking == false)
+        {
+            startChecking = true;
+            InvokeRepeating("CheckForWinner", 3, 3);
         }
     }
 
@@ -137,5 +153,13 @@ public class PlayerController : MonoBehaviour
         respawned = !respawned;
         gameObject.transform.position = startPos;
         GetComponent<DisplayColor>().Respawn(_photonView.Owner.NickName);
+    }
+
+    void CheckForWinner()
+    {
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
+        {
+            killCountPanel.GetComponent<UI_KillCountPanel>().NoRespawnWinner(GetComponent<PhotonView>().Owner.NickName);
+        }
     }
 }

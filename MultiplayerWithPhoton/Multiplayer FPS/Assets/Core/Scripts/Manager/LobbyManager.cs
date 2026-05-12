@@ -42,7 +42,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public void JoinGameNoRespawn()
     {
-        levelName = "Floor layout";
+        levelName = "NoRespawn";
         currentLobby = noRespawn;
         PhotonNetwork.JoinLobby(noRespawn);
     }

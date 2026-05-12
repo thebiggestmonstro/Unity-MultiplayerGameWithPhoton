@@ -44,7 +44,7 @@ public class UI_Timer : MonoBehaviour
 
         UpdateUI(remainingTime);
 
-        if (remainingTime <= 0)
+        if (remainingTime <= 0 && gameObject.GetComponent<UI_NickName>().noRespawnMode == false)
         {
             OnTimerEnd();
         }
@@ -52,11 +52,14 @@ public class UI_Timer : MonoBehaviour
 
     void UpdateUI(int timeInSeconds)
     {
-        int min = timeInSeconds / 60;
-        int sec = timeInSeconds % 60;
+        if (gameObject.GetComponent<UI_NickName>().noRespawnMode == false)
+        {
+            int min = timeInSeconds / 60;
+            int sec = timeInSeconds % 60;
 
-        minutesText.text = min.ToString();
-        secondsText.text = sec.ToString("D2");
+            minutesText.text = min.ToString();
+            secondsText.text = sec.ToString("D2");
+        }
     }
 
     void OnTimerEnd()
@@ -73,7 +76,7 @@ public class UI_Timer : MonoBehaviour
             timeStop = true;
             isTimerRunning = false;
         }
-        if (gameObject.GetComponent<UI_NickName>().teamMode ==true)
+        else
         {
             teamKillCountPanel.GetComponent<UI_TeamKillCountPanel>().countDown = false;
             teamKillCountPanel.GetComponent<UI_TeamKillCountPanel>().TimeOver();

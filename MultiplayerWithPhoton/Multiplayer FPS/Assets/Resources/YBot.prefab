@@ -6121,6 +6121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameOver: 0
+  noRespawn: 0
 --- !u!114 &5315617699849278679
 MonoBehaviour:
   m_ObjectHideFlags: 0

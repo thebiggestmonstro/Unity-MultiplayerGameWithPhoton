@@ -16,6 +16,8 @@ public class UI_NickName : MonoBehaviourPunCallbacks
     TextMeshProUGUI messageText;
     public int[] killScore;
     public bool teamMode = false;
+    public bool noRespawnMode = false;
+    public GameObject eliminationPanel;
 
     private PhotonView pv;
     private Coroutine messageCoroutine;
@@ -28,6 +30,11 @@ public class UI_NickName : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        if (noRespawnMode == true)
+        {
+            eliminationPanel.SetActive(false);
+        }
+
         displayPanel.SetActive(false);
 
         for (int i = 0; i < names.Length; i++)

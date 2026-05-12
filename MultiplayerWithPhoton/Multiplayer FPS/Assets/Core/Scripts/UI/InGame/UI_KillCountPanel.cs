@@ -85,4 +85,10 @@ public class UI_KillCountPanel : MonoBehaviour
             killAmounts[i].text = (pName == "name") ? "" : highestKills[i].playerKills.ToString();
         }
     }
+
+    public void NoRespawnWinner(string name)
+    {
+        winnerPanel.SetActive(true);
+        winnerText.text = name;
+    }
 }
