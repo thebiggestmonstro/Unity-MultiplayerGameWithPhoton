@@ -157,7 +157,7 @@ public class PlayerController : MonoBehaviour
 
     void CheckForWinner()
     {
-        if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 1 && noRespawn)
         {
             killCountPanel.GetComponent<UI_KillCountPanel>().NoRespawnWinner(GetComponent<PhotonView>().Owner.NickName);
         }

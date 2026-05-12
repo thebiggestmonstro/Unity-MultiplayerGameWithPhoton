@@ -24,7 +24,6 @@ public class UI_ChooseColor : MonoBehaviour
 
         if (localViewID == -1)
         {
-            Debug.LogError("[UI_ChooseColor] Local player not found.");
             return;
         }
 

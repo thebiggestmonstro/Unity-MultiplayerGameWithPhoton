@@ -70,7 +70,6 @@ public class PlayerFire : MonoBehaviour
             }
 
             shooterName = GetComponent<PhotonView>().Owner.NickName;
-            Debug.Log(targetName + " got hit by " + shooterName);
         }
 
         gameObject.layer = LayerMask.NameToLayer("Default");
